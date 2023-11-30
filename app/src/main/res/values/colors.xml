@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="tabColor">#A192A6</color>
+    <color name="pp">#4A1259</color>
+
 </resources>
