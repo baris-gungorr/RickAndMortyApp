@@ -42,9 +42,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:thumb="@drawable/thumb"
+        app:track="@drawable/track"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:track="@drawable/track">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.appcompat.widget.SwitchCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

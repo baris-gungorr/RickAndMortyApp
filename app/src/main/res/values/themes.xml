@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RickAndMortyApp" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.RickAndMortyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
-        <item name="android:statusBarColor">@color/pp</item>
+        <item name="android:statusBarColor">@color/black</item>
 
     </style>
 
@@ -13,7 +13,7 @@
 
     <style name="ScreenBackground"><item name="android:background">@color/white</item></style>
     <style name="CardBackground"><item name="android:background">@color/white</item></style>
-    <style name="TextColor"><item name="android:textColor">@color/pp</item></style>
+    <style name="TextColor"><item name="android:textColor">@color/black</item></style>
 
     <style name="ImageChange"><item name="android:textColor">@drawable/eye</item></style>
 
