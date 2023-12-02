@@ -2,6 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.RickAndMortyApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/dark_gray</item>
+        <item name="colorPrimaryVariant">@color/dark_gray</item>
+
+
     </style>
+    <style name="ScreenBackground"><item name="android:background">@color/tabColor</item></style>
+    <style name="CardBackground"><item name="android:background">@color/dark_gray</item></style>
+    <style name="TextColor"><item name="android:textColor">#04F10E</item></style>
+
 </resources>

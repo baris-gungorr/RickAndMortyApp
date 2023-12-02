@@ -5,4 +5,12 @@
     <color name="tabColor">#A192A6</color>
     <color name="pp">#4A1259</color>
 
+
+    <color name="colorThird">#732C2C</color>
+
+    <color name="colorSecond">#BFA77A</color>
+    <color name="dark_gray">#ff424242</color>
+    <color name="gray">#aaa</color>
+
+
 </resources>
