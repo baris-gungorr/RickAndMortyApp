@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="350dp"
     android:layout_margin="16dp"
-    android:backgroundTint="@color/gray"
+    android:backgroundTint="@color/dark_gray"
     app:cardCornerRadius="32dp"
     app:cardElevation="12.dp">
 
@@ -22,8 +22,6 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:paddingTop="20dp"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="3dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop" />
 
