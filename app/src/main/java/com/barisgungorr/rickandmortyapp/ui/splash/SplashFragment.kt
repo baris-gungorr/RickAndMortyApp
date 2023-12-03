@@ -40,6 +40,7 @@ class SplashFragment : Fragment() {
         clickImage()
 
     }
+
     private fun themeMode() {
         val switchMode = binding.switchMode
 
