@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -56,6 +58,12 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.6.0")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.5.0")
+    //Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.48.1")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    //ViewModel
+    implementation ("androidx.navigation:navigation-compose:2.7.5")
 
 
 }
