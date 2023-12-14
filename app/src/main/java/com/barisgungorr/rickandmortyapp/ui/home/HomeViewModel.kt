@@ -13,15 +13,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val useCase: RickMortyUseCase) : ViewModel() {
     private val _state = MutableStateFlow(RickMortyStates())
-    val state : MutableStateFlow<RickMortyStates> = _state
+    var state : MutableStateFlow<RickMortyStates> = _state
 
     init {
         getItems()
     }
+
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     private fun getItems() = viewModelScope.launch {

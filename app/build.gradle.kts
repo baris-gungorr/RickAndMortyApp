@@ -64,6 +64,8 @@ dependencies {
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
     //ViewModel
     implementation ("androidx.navigation:navigation-compose:2.7.5")
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.13.2")
 
 
 }

@@ -13,6 +13,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class RickMortyUseCase@Inject constructor(private val repository: RickAndMortyRepository) {
+
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     suspend operator fun invoke() : Flow<Resource<List<RickMortyModel>>> = flow {
         try {

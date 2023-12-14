@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.databinding.ItemCharacterBinding
 import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
+import com.barisgungorr.rickandmortyapp.util.extension.load
 
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     inner class HomeViewHolder (val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root)
@@ -30,10 +31,11 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
        val item = differ.currentList[position]
         holder.binding.apply {
-            ivCharacter.setImageResource(item.image.toInt())
+           ivCharacter.load(item.image)
             tvName.text = item.name
             tvStatus.text = item.status
             tvSpecies.text = item.species
+
 
         }
     }
