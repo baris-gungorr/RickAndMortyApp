@@ -44,7 +44,7 @@
         android:layout_marginEnd="8dp"
         android:background="@color/dark_gray"
         android:elevation="5dp"
-        android:queryHint="Search in Meals"
+        android:queryHint="Search in Characters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />

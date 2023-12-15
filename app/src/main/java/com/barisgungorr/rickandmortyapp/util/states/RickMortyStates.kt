@@ -1,4 +1,4 @@
-package com.barisgungorr.rickandmortyapp.util
+package com.barisgungorr.rickandmortyapp.util.states
 
 import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
 

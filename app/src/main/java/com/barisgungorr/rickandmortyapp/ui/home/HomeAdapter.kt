@@ -27,16 +27,20 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
             ), parent, false
         )
     )
-
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
        val item = differ.currentList[position]
         holder.binding.apply {
-           ivCharacter.load(item.image)
-            tvName.text = item.name
+           ivCharacters.load(item.image)
+            tvCharactersName.text = item.name
             tvStatus.text = item.status
-            tvSpecies.text = item.species
 
-
+            if (item.status.equals("Alive", ignoreCase = true)) {
+                ivAlive.setImageResource(R.drawable.baseline_alive)
+            } else if (item.status.equals("Dead", ignoreCase = true)){
+                ivAlive.setImageResource(R.drawable.baseline_dead)
+            } else {
+                ivAlive.setImageResource(R.drawable.baseline_unknown)
+            }
         }
     }
     override fun getItemCount(): Int = differ.currentList.size }

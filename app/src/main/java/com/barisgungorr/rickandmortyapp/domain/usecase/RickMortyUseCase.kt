@@ -6,7 +6,7 @@ import androidx.annotation.RequiresExtension
 import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
 import com.barisgungorr.rickandmortyapp.domain.model.toDomain
 import com.barisgungorr.rickandmortyapp.domain.repository.RickAndMortyRepository
-import com.barisgungorr.rickandmortyapp.util.Resource
+import com.barisgungorr.rickandmortyapp.util.resource.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException

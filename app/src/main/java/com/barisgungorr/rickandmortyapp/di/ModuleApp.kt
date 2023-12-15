@@ -3,7 +3,7 @@ package com.barisgungorr.rickandmortyapp.di
 import com.barisgungorr.rickandmortyapp.data.api.ApiService
 import com.barisgungorr.rickandmortyapp.data.repository.RickAndMortyRepositoryImpl
 import com.barisgungorr.rickandmortyapp.domain.repository.RickAndMortyRepository
-import com.barisgungorr.rickandmortyapp.util.Constants
+import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
