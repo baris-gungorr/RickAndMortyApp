@@ -1,8 +1,7 @@
 package com.barisgungorr.rickandmortyapp.di
 
 import com.barisgungorr.rickandmortyapp.data.api.ApiService
-import com.barisgungorr.rickandmortyapp.data.repository.RickAndMortyRepositoryImpl
-import com.barisgungorr.rickandmortyapp.domain.repository.RickAndMortyRepository
+import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository
 import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import dagger.Module
 import dagger.Provides
@@ -26,6 +25,6 @@ object ModuleApp {
 
     @Singleton
     @Provides
-    fun providesRepository(apiService: ApiService):RickAndMortyRepository = RickAndMortyRepositoryImpl(apiService)
+    fun providesRepository(apiService: ApiService):RickAndMortyRepository = CharacterRepository(apiService)
 
 }

@@ -66,6 +66,9 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.7.5")
     //Glide
     implementation("com.github.bumptech.glide:glide:4.13.2")
+    //Paging
+    implementation ("androidx.paging:paging-runtime:3.2.0")
+    implementation ("androidx.paging:paging-compose:3.2.0")
 
 
 }
