@@ -25,6 +25,6 @@ object ModuleApp {
 
     @Singleton
     @Provides
-    fun providesRepository(apiService: ApiService):RickAndMortyRepository = CharacterRepository(apiService)
+    fun providesRepository(apiService: ApiService):CharacterRepository = CharacterRepository(apiService)
 
 }

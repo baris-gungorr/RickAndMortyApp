@@ -2,55 +2,69 @@ package com.barisgungorr.rickandmortyapp.ui.home
 
 import android.os.Build
 import androidx.annotation.RequiresExtension
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.barisgungorr.rickandmortyapp.data.dto.Character
+import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
+import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
 import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterByIdUseCase
+import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterByNameUseCase
+import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterUseCase
 import com.barisgungorr.rickandmortyapp.util.resource.Resource
 import com.barisgungorr.rickandmortyapp.util.states.RickMortyStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 
-
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val useCase: GetCharacterByIdUseCase) : ViewModel() {
-    private val _state = MutableStateFlow(RickMortyStates())
-    var state: MutableStateFlow<RickMortyStates> = _state
-    private var cacheList = mutableListOf<RickMortyModel>()
+class HomeViewModel @Inject constructor(
+    private val getCharacterUseCase: GetCharacterUseCase, // Bu bağımlılık, bir karakter listesi almak için kullanılan bir kullanım durumu (use case) sınıfıdır. Bu sınıf, bir sorgu parametresi alır ve bir Response<Character> nesnesi döndürür.
+    private val getCharacterByNameUseCase: GetCharacterByNameUseCase,
+    private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
+): ViewModel(){
 
-    init {
-        getItems()
-    }
+     val charactersResponse = MutableLiveData<Response<Character>>() // Bu, karakter listesini almak için kullanılan bir MutableLiveData nesnesidir. Bu nesne, bir Response<Character> nesnesi içerir.
+     val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
+     private val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
+     val isLoading = MutableLiveData<Boolean>()
 
-
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    private fun getItems() = viewModelScope.launch {
-        useCase().collect {
-            when (it) {
-                is Resource.Success -> {
-                    cacheList = it.data?.toMutableList() ?: mutableListOf()
-                    _state.value = RickMortyStates(success = cacheList)
-                }
-                is Resource.Loading -> _state.value = RickMortyStates(load = true)
-                is Resource.Error -> _state.value = RickMortyStates(fail = it.message ?: "")
-            }
-        }
-    }
-
-    fun search(searchKeyword: String) {
+    fun onCreateList(){
         viewModelScope.launch {
-            val filteredList = if (searchKeyword.isEmpty()) {
-                cacheList
-            } else {
-                cacheList.filter {
-                    it.name.lowercase().contains(searchKeyword.lowercase())
-                }.toMutableList()
+            isLoading.postValue(true)
+            val query = "1,2,3,4,5,6,7,8,9,10,11,12"
+            val listResult = getCharacterUseCase(query)
+
+            listResult.let {
+                charactersResponse.postValue(listResult)
+                isLoading.postValue(false)
             }
-            _state.value = RickMortyStates(success = filteredList)
         }
     }
+
+    fun onCreateCharacterByName(characterName: String){
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val character = getCharacterByNameUseCase("?name=$characterName")
+            character?.let {
+                characterListItemResponse.postValue(character)
+                isLoading.postValue(false)
+            }
+        }
+    }
+    fun onCreateCharacterItemById(characterId: String){
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val character = getCharacterByIdUseCase(characterId)
+            character?.let {
+                characterItemResponse.postValue(character)
+                isLoading.postValue(false)
+            }
+        }
+    }
+
 }

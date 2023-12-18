@@ -6,47 +6,25 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
+import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.ItemCharacterBinding
 import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
 import com.barisgungorr.rickandmortyapp.util.extension.load
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
-    inner class HomeViewHolder (val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root)
+class HomeAdapter( private val result: ArrayList<CharacterItem>,
+                   private val onItemSelected:(CharacterItem) -> Unit)
+                    :RecyclerView.Adapter<HomeViewHolder>(){
 
-    private val differCallback = object : DiffUtil.ItemCallback<RickMortyModel>() {
-
-        override fun areItemsTheSame(oldItem: RickMortyModel, newItem: RickMortyModel): Boolean = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: RickMortyModel, newItem: RickMortyModel): Boolean = oldItem == newItem
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return HomeViewHolder(layoutInflater.inflate(R.layout.item_character, parent, false))
     }
-    private  val differ = AsyncListDiffer(this, differCallback)
-    fun submitList(list: List<RickMortyModel>) = differ.submitList(list)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder = HomeViewHolder(
-        ItemCharacterBinding.inflate(
-            LayoutInflater.from(
-                parent.context
-            ), parent, false
-        )
-    )
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-       val item = differ.currentList[position]
-        holder.binding.apply {
-           ivCharacters.load(item.image)
-            tvCharactersName.text = item.name
-            tvStatus.text = item.status
+    override fun getItemCount(): Int = result.size
 
-            if (item.status.equals("Alive", ignoreCase = true)) {
-                ivAlive.setImageResource(R.drawable.baseline_alive)
-            } else if (item.status.equals("Dead", ignoreCase = true)){
-                ivAlive.setImageResource(R.drawable.baseline_dead)
-            } else {
-                ivAlive.setImageResource(R.drawable.baseline_unknown)
-            }
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+        val item = result[position]
+        item.let {
+            holder.bind(item, onItemSelected)
         }
     }
-    override fun getItemCount(): Int = differ.currentList.size }
-
-
-
-
-
-
+}

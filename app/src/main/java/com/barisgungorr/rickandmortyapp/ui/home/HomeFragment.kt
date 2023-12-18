@@ -10,85 +10,150 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.snapshots.Snapshot.Companion.observe
+import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.barisgungorr.rickandmortyapp.R
+import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.FragmentHomeBinding
+import com.barisgungorr.rickandmortyapp.util.constanst.Constants
+import com.google.android.material.internal.ViewUtils.hideKeyboard
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var homeAdapter: HomeAdapter
-    private val viewModel: HomeViewModel by viewModels()
+class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener,
+    SearchView.OnQueryTextListener {
 
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var adapter: HomeAdapter
+    private val homeViewModel: HomeViewModel by viewModels()
+    private var notFound: Boolean = false
+    private var searchCharacter: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_homeFragment_to_splashFragment)
+        }
+
+        initListComponents()
         return binding.root
     }
 
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews()
-        observe()
+    private fun searchCharacters(){
+        homeViewModel.onCreateList()
     }
 
-
-    @SuppressLint("ClickableViewAccessibility")
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    private fun initViews() = with(binding) {
-        homeAdapter = HomeAdapter()
-        binding.rvCharacter.apply {
-            adapter = homeAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            setHasFixedSize(true)
+    private fun searchCharacterByName(query: String){
+        CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.onCreateCharacterByName(query)
         }
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return true
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(!query.isNullOrEmpty()){
+            val lowercaseQuery = query.lowercase()
+            searchCharacterByName(lowercaseQuery)
+            context?.let { com.barisgungorr.rickandmortyapp.util.extension.hideKeyboard(it,binding.searchView) }
+        }
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return true
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun initListComponents(){
+        binding.searchView.setOnQueryTextListener(this)
+        searchCharacters()
+
+        homeViewModel.charactersResponse.observe(viewLifecycleOwner , Observer { it ->
+
+            it.let{
+                val characterList : ArrayList<CharacterItem> = it.body()!!
+                adapter = HomeAdapter(characterList){ character ->
+                    onItemSelected(
+                        character
+                    )
+                }
+                adapter.notifyDataSetChanged()
             }
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.search(newText)
-                return false
-            }
+            homeViewModel.isLoading.observe(viewLifecycleOwner, Observer{
+                binding.pbCharacter.isVisible = it
+            })
+
+            binding.rvCharacter.layoutManager = GridLayoutManager(activity, 2)
+            binding.rvCharacter.adapter = adapter
         })
 
-        searchView.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                searchView.isIconified = false
-            }
-            false
-        }
+        homeViewModel.characterListItemResponse.observe(viewLifecycleOwner, Observer { it ->
 
+            if(it.code() != Constants.NOT_FOUND_CODE){
+                notFound = false
+                searchCharacter = true
+
+                it.let{
+
+                    val characterList : ArrayList<CharacterItem> = it.body()!!.results
+
+                    adapter = HomeAdapter(characterList){ character ->
+                        onItemSelected(
+                            character
+                        )
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+
+                homeViewModel.isLoading.observe(viewLifecycleOwner, Observer{
+                    binding.pbCharacter.isVisible = it
+                })
+
+                binding.rvCharacter.layoutManager = GridLayoutManager(activity, 2)
+                binding.rvCharacter.adapter = adapter
+
+            }else{
+                notFound = true
+            }
+
+            showNotFound()
+        })
     }
 
-    private fun observe() {
-        lifecycleScope.launch {
-            viewModel.state.collect{
-                when{
-                    it.load-> binding.pbCharacter.visibility = View.VISIBLE
-                    it.success.isNotEmpty()->{
-                        binding.pbCharacter.isGone = true
-                        homeAdapter.submitList(it.success)
-                    }
-                    it.fail.isNotBlank()->{
-                        binding.pbCharacter.isGone = true
-                        Toast.makeText(requireContext(), it.fail, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+    private fun onItemSelected(characterItem : CharacterItem) {
+        notFound = false
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(idCharacter = characterItem.id))
+    }
+
+    private fun showNotFound() {
+        if(notFound) {
+            val sbError = Snackbar.make(
+                binding.root,
+                R.string.character_not_found, Snackbar.ANIMATION_MODE_SLIDE
+            )
+                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white ))
+            sbError.show()
         }
     }
 }
+
