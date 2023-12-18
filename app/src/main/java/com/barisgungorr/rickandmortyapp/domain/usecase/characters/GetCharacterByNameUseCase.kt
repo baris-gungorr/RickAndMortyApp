@@ -1,4 +1,4 @@
-package com.barisgungorr.rickandmortyapp.domain.usecase
+package com.barisgungorr.rickandmortyapp.domain.usecase.characters
 
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository

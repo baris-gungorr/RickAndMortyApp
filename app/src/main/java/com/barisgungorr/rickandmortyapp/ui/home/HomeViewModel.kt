@@ -1,21 +1,15 @@
 package com.barisgungorr.rickandmortyapp.ui.home
 
-import android.os.Build
-import androidx.annotation.RequiresExtension
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
-import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
-import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterByIdUseCase
-import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterByNameUseCase
-import com.barisgungorr.rickandmortyapp.domain.usecase.GetCharacterUseCase
-import com.barisgungorr.rickandmortyapp.util.resource.Resource
-import com.barisgungorr.rickandmortyapp.util.states.RickMortyStates
+import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByIdUseCase
+import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByNameUseCase
+import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -30,7 +24,7 @@ class HomeViewModel @Inject constructor(
 
      val charactersResponse = MutableLiveData<Response<Character>>() // Bu, karakter listesini almak için kullanılan bir MutableLiveData nesnesidir. Bu nesne, bir Response<Character> nesnesi içerir.
      val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
-     private val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
+     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
      val isLoading = MutableLiveData<Boolean>()
 
     fun onCreateList(){
