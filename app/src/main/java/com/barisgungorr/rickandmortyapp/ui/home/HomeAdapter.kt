@@ -2,14 +2,9 @@ package com.barisgungorr.rickandmortyapp.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
-import com.barisgungorr.rickandmortyapp.databinding.ItemCharacterBinding
-import com.barisgungorr.rickandmortyapp.domain.model.RickMortyModel
-import com.barisgungorr.rickandmortyapp.util.extension.load
 
 class HomeAdapter( private val result: ArrayList<CharacterItem>,
                    private val onItemSelected:(CharacterItem) -> Unit)

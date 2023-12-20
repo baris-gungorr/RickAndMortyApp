@@ -1,6 +1,5 @@
 package com.barisgungorr.rickandmortyapp.domain.usecase.characters
 
-import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository
 import retrofit2.Response

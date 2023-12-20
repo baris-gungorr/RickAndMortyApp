@@ -1,5 +1,6 @@
 package com.barisgungorr.rickandmortyapp.ui.detail
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -29,15 +30,15 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
-    private val args:DetailFragmentArgs by navArgs()
+    private val args: DetailFragmentArgs by navArgs()
     private val characterViewModel: HomeViewModel by viewModels()
     private val episodesViewModel: EpisodeViewModel by viewModels()
 
     private lateinit var adapter: EpisodeAdapter
     private lateinit var binding: FragmentDetailBinding
-    private lateinit var characterItem : CharacterItem
-    private lateinit var listEpisodes : Episodes
-    private lateinit var context : Context
+    private lateinit var characterItem: CharacterItem
+    private lateinit var listEpisodes: Episodes
+    private lateinit var context: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,83 +49,88 @@ class DetailFragment : Fragment() {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         context = inflater.context
 
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
-        initViews()
-    }
-    private fun searchCharacters(){
-        CoroutineScope(Dispatchers.IO).launch {
-            characterViewModel.onCreateCharacterItemById(args.idCharacter.toString())
-        }
-    }
-
-    private fun searchEpisodes(characterItem: CharacterItem){
-        CoroutineScope(Dispatchers.IO).launch {
-            val episodes =  Url.obtainNumFromURLs(characterItem.episode);
-
-            if(episodes.contains(",")){
-                episodesViewModel.onCreateListEpisodes(episodes)
-            }else{
-                episodesViewModel.onCreateEpisode(episodes)
-            }
-        }
     }
 
     private fun observe() {
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
         }
 
         characterViewModel.characterItemResponse.observe(viewLifecycleOwner, Observer { it ->
-            it?.let{
-                characterItem  = it.body()!!
+            it?.let {
+                characterItem = it.body()!!
                 searchEpisodes(characterItem)
                 initViews()
+            }
+        })
 
-                episodesViewModel.episodesListResponse.observe(viewLifecycleOwner, Observer { it ->
-                    it?.let{
-                        listEpisodes.clear()
-                        listEpisodes  = it.body()!!
-                        setRecyclerViewEpisodes()
-                    }
-                })
+        episodesViewModel.episodesListResponse.observe(viewLifecycleOwner, Observer { it ->
+            it?.let {
+                listEpisodes.clear()
+                listEpisodes = it.body()!!
+                setRecyclerViewEpisodes()
+            }
+        })
 
-                episodesViewModel.episodesResponse.observe(viewLifecycleOwner, Observer { it ->
-                    it?.let{
-                        listEpisodes.clear()
-                        listEpisodes.add(it.body()!!)
-                        setRecyclerViewEpisodes()
-                    }
-                })
+        episodesViewModel.episodesResponse.observe(viewLifecycleOwner, Observer { it ->
+            it?.let {
+                listEpisodes.clear()
+                listEpisodes.add(it.body()!!)
+                setRecyclerViewEpisodes()
             }
         })
     }
+
+    private fun searchCharacters() {
+        CoroutineScope(Dispatchers.IO).launch {
+            characterViewModel.onCreateCharacterItemById(args.idCharacter.toString())
+        }
+    }
+
+    private fun searchEpisodes(characterItem: CharacterItem) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val episodes = Url.obtainNumFromURLs(characterItem.episode)
+
+            if (episodes.contains(",")) {
+                episodesViewModel.onCreateListEpisodes(episodes)
+            } else {
+                episodesViewModel.onCreateEpisode(episodes)
+            }
+        }
+    }
+
     private fun initViews() {
-        Glide.with(this).load(characterItem.image).into(binding.ivDetailCharacter)
+        Glide.with(binding.ivDetailCharacter.context)
+            .load(characterItem.image)
+            .into(binding.ivDetailCharacter)
+
         binding.tvDetailName.text = characterItem.name
         binding.tvDetailStatus.text = characterItem.status
 
-        when(characterItem.status.lowercase()){
-            "alive" -> binding.ivDetailAlive.background = ContextCompat.getDrawable(context ,R.drawable.baseline_alive)
-            "dead" -> binding.ivDetailAlive.background = ContextCompat.getDrawable(context,R.drawable.baseline_dead)
-            "unknown" ->binding.ivDetailAlive.background = ContextCompat.getDrawable(context,R.drawable.baseline_unknown)
+        when (characterItem.status.lowercase()) {
+            "alive" -> binding.ivDetailAlive.background =
+                ContextCompat.getDrawable(context, R.drawable.baseline_alive)
+            "dead" -> binding.ivDetailAlive.background =
+                ContextCompat.getDrawable(context, R.drawable.baseline_dead)
+            "unknown" -> binding.ivDetailAlive.background =
+                ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
         }
         binding.tvDetailSpecies.text = characterItem.species
         binding.tvDetailLocation.text = characterItem.location.name
         binding.tvDetailGender.text = characterItem.gender
     }
 
-    private fun setRecyclerViewEpisodes(){
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setRecyclerViewEpisodes() {
         adapter = EpisodeAdapter(listEpisodes)
         adapter.notifyDataSetChanged()
         binding.rvEpisodes.layoutManager = LinearLayoutManager(activity)
         binding.rvEpisodes.adapter = adapter
-    }
     }
 }
