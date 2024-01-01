@@ -8,7 +8,4 @@ import javax.inject.Inject
 class GetCharacterByIdUseCase@Inject constructor(private val repository: CharacterRepository) {
 
     suspend operator fun invoke(query: String) : Response<CharacterItem> = repository.getCharactersById(query)
-
-
-
 }

@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.activity.addCallback
+import androidx.core.content.ContentProviderCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
@@ -22,12 +26,12 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener,
     SearchView.OnQueryTextListener {
-
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: HomeAdapter
     private val homeViewModel: HomeViewModel by viewModels()
@@ -42,6 +46,10 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_homeFragment_to_splashFragment)
+        }
+
+        adapter = HomeAdapter { character ->
+            onItemSelected(character)
         }
 
         initListComponents()
@@ -71,7 +79,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
     override fun onQueryTextChange(newText: String?): Boolean {
         return true
     }
-
     @SuppressLint("NotifyDataSetChanged")
     private fun initListComponents(){
         binding.searchView.setOnQueryTextListener(this)
@@ -81,12 +88,7 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
 
             it.let{
                 val characterList : ArrayList<CharacterItem> = it.body()!!
-                adapter = HomeAdapter(characterList){ character ->
-                    onItemSelected(
-                        character
-                    )
-                }
-                adapter.notifyDataSetChanged()
+                adapter.submitList(characterList) // adapter'a veri listesini gönder
             }
 
             homeViewModel.isLoading.observe(viewLifecycleOwner, Observer{
@@ -104,17 +106,9 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
                 searchCharacter = true
 
                 it.let{
-
                     val characterList : ArrayList<CharacterItem> = it.body()!!.results
-
-                    adapter = HomeAdapter(characterList){ character ->
-                        onItemSelected(
-                            character
-                        )
-                    }
-                    adapter.notifyDataSetChanged()
+                    adapter.submitList(characterList)
                 }
-
                 homeViewModel.isLoading.observe(viewLifecycleOwner, Observer{
                     binding.pbCharacter.isVisible = it
                 })
@@ -125,7 +119,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
             }else{
                 notFound = true
             }
-
             showNotFound()
         })
     }
@@ -134,16 +127,19 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
         notFound = false
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(idCharacter = characterItem.id))
     }
-
     private fun showNotFound() {
-        if(notFound) {
+        if (notFound) {
             val sbError = Snackbar.make(
                 binding.root,
                 R.string.character_not_found, Snackbar.ANIMATION_MODE_SLIDE
             )
-                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white ))
+                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white))
             sbError.show()
         }
     }
 }
+
+
+
+
 

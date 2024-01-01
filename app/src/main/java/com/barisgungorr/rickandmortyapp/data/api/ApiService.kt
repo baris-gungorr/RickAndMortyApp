@@ -10,7 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface ApiService {
-    @GET
+    @GET()
     suspend fun getCharacters(@Url url:String): Response<Character>
     @GET
     suspend fun getCharactersById(@Url url:String): Response<CharacterItem>
@@ -23,9 +23,5 @@ interface ApiService {
     suspend fun getEpisodes(@Url url: String): Response<Episodes>
     @GET
     suspend fun getEpisodesById(@Url url: String): Response<EpisodesItem>
-
-
-
-
 
 }

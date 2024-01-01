@@ -23,7 +23,6 @@ class HomeViewHolder(view: View): RecyclerView.ViewHolder(view){
             "unknown" -> binding.ivAlive.background = ContextCompat.getDrawable(itemView.context ,R.drawable.baseline_unknown)
         }
 
-
         Glide.with(itemView.context).load(characterItem.image).into(binding.ivCharacters)
 
         itemView.setOnClickListener{

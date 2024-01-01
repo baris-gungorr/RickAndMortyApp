@@ -1,11 +1,18 @@
 package com.barisgungorr.rickandmortyapp.ui.home
 
+import android.nfc.tech.MifareUltralight.PAGE_SIZE
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
+import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository
 import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByIdUseCase
 import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByNameUseCase
 import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterUseCase
@@ -22,10 +29,10 @@ class HomeViewModel @Inject constructor(
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
 ): ViewModel(){
 
-     val charactersResponse = MutableLiveData<Response<Character>>() // Bu, karakter listesini almak için kullanılan bir MutableLiveData nesnesidir. Bu nesne, bir Response<Character> nesnesi içerir.
-     val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
-     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
-     val isLoading = MutableLiveData<Boolean>()
+    val charactersResponse = MutableLiveData<Response<Character>>() // Bu, karakter listesini almak için kullanılan bir MutableLiveData nesnesidir. Bu nesne, bir Response<Character> nesnesi içerir.
+    val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
+    val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
+    val isLoading = MutableLiveData<Boolean>()
 
     fun onCreateList(){
         viewModelScope.launch {

@@ -12,4 +12,5 @@ class EpisodeRepository @Inject constructor(
 ) {
     suspend fun getEpisodes(query: String): Response<Episodes> = api.getEpisodes(EPISODE +query)
     suspend fun getEpisodeById(query: String): Response<EpisodesItem> = api.getEpisodesById(EPISODE +query)
+
 }

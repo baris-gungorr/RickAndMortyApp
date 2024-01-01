@@ -6,7 +6,7 @@ class Url {
             val num = mutableListOf<String>()
 
             for (url in urls) {
-                val patron = "\\d+$" // Busca uno o más dígitos al final de la cadena
+                val patron = "\\d+$"
                 val regex = Regex(patron)
                 val coincidencias = regex.findAll(url)
                 val listaNumeros = coincidencias.map { it.value }.toList()

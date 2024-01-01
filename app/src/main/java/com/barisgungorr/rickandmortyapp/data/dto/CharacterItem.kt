@@ -1,7 +1,5 @@
 package com.barisgungorr.rickandmortyapp.data.dto
 
-
-
 data class CharacterItem(
     val created: String,
     val episode: List<String>,

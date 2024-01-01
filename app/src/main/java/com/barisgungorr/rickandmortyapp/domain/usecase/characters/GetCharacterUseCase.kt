@@ -10,5 +10,4 @@ class GetCharacterUseCase @Inject constructor(
 ){
     suspend operator fun invoke(query: String) : Response<Character> = repository.getCharacters(query)
 
-
 }
