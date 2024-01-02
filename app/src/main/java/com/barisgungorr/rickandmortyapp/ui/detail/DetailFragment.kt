@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,7 @@ import com.barisgungorr.rickandmortyapp.ui.episode.EpisodeAdapter
 import com.barisgungorr.rickandmortyapp.ui.episode.EpisodeViewModel
 import com.barisgungorr.rickandmortyapp.ui.home.HomeViewModel
 import com.barisgungorr.rickandmortyapp.util.extension.Url
+import com.barisgungorr.rickandmortyapp.util.extension.snack
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +35,7 @@ class DetailFragment : Fragment() {
     private val args: DetailFragmentArgs by navArgs()
     private val characterViewModel: HomeViewModel by viewModels()
     private val episodesViewModel: EpisodeViewModel by viewModels()
+    private val viewModel: DetailViewModel by viewModels()
 
     private lateinit var adapter: EpisodeAdapter
     private lateinit var binding: FragmentDetailBinding
@@ -116,8 +119,10 @@ class DetailFragment : Fragment() {
         when (characterItem.status.lowercase()) {
             "alive" -> binding.ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_alive)
+
             "dead" -> binding.ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_dead)
+
             "unknown" -> binding.ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
         }
@@ -132,5 +137,13 @@ class DetailFragment : Fragment() {
         adapter.notifyDataSetChanged()
         binding.rvEpisodes.layoutManager = LinearLayoutManager(activity)
         binding.rvEpisodes.adapter = adapter
+
+
+        binding.btnFavEmpty.setOnClickListener {
+           binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
+            requireView().snack(getString(R.string.favorite_page_add_favorite))
+            viewModel.save()
+        }
     }
 }
+

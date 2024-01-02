@@ -1,5 +1,9 @@
 package com.barisgungorr.rickandmortyapp.data.dto
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
 data class CharacterItem(
     val created: String,
     val episode: List<String>,

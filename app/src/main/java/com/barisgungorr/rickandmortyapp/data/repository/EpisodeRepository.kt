@@ -1,6 +1,6 @@
 package com.barisgungorr.rickandmortyapp.data.repository
 
-import com.barisgungorr.rickandmortyapp.data.api.ApiService
+import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.data.dto.Episodes
 import com.barisgungorr.rickandmortyapp.data.dto.EpisodesItem
 import retrofit2.Response

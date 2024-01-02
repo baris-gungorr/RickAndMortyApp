@@ -1,4 +1,4 @@
-package com.barisgungorr.rickandmortyapp.data.api
+package com.barisgungorr.rickandmortyapp.data.source.remote
 
 import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem

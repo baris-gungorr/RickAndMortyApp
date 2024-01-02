@@ -42,10 +42,17 @@
         <action
             android:id="@+id/action_detailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.barisgungorr.rickandmortyapp.ui.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <argument
+            android:name="fav"
+            app:argType="com.barisgungorr.rickandmortyapp.data.entity.Favorite" />
+    </fragment>
 </navigation>
