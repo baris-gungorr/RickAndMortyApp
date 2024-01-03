@@ -33,15 +33,16 @@
 
             <ImageView
                 android:id="@+id/ivDetailAlive"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="60dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="55dp"
                 android:layout_marginBottom="130dp"
-                android:src="@color/dark_gray"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
 
             </ImageView>
 
@@ -49,13 +50,14 @@
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="56dp"
                 android:text="CHARACTER NAME"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.741"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivCharacter"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -73,7 +75,7 @@
                 android:id="@+id/tvStatusFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:text="status"
                 app:layout_constraintStart_toEndOf="@+id/ivDetailAlive"
@@ -93,7 +95,7 @@
                 android:id="@+id/tvGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="82dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="20dp"
                 android:text="gender"
@@ -105,7 +107,7 @@
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="82dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="24dp"
                 android:text="location"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"

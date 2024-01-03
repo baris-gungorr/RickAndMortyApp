@@ -18,6 +18,8 @@ class DetailViewModel @Inject constructor(
 
     private var uiModel = MutableStateFlow(DetailUiModel())
     private val currentUIModel get() = uiModel.value
+/*
+
 
     fun save () {
         val character = currentUIModel.character ?: return
@@ -37,11 +39,44 @@ class DetailViewModel @Inject constructor(
                 Log.e("Save", "ViewModel: Character saved successfully.")
             }catch (e:Exception) {
                 Log.e("Save", "ViewModel: Error saving character: $e")
-            }
+            }*/
 
+
+    fun save(
+        characterId: Int,
+        characterName: String,
+        //characterAlive: String,
+        characterStatus: String,
+        characterSpecies: String,
+        characterGender: String,
+        characterLocation: String,
+        characterImage: String,
+    ) {
+        viewModelScope.launch {
+            try {
+                characterRepository.save(
+                    characterId = characterId,
+                    characterName = characterName,
+                  //  characterAlive = characterAlive,
+                    characterStatus = characterStatus,
+                    characterSpecies = characterSpecies,
+                    characterGender = characterGender,
+                    characterLocation = characterLocation,
+                    characterImage = characterImage
+                )
+                Log.e("Save", "ViewModel: Character saved successfully.")
+            }catch (e:Exception) {
+                Log.e("Save", "ViewModel: Error saving character: $e")
+            }
         }
     }
 }
+
+
+
+
+
+
 
 data class DetailUiModel(
     val character: Favorite? = null,

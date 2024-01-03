@@ -58,11 +58,12 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe()
+
     }
 
     private fun observe() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToHomeFragment())
+            findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
         }
 
         characterViewModel.characterItemResponse.observe(viewLifecycleOwner, Observer { it ->
@@ -139,11 +140,44 @@ class DetailFragment : Fragment() {
         binding.rvEpisodes.adapter = adapter
 
 
-        binding.btnFavEmpty.setOnClickListener {
+        binding.btnFavEmpty.setOnClickListener() {
            binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
             requireView().snack(getString(R.string.favorite_page_add_favorite))
-            viewModel.save()
+            viewModel.save(
+                characterItem.id,
+                characterItem.name,
+               // characterItem.alive,
+                characterItem.status,
+                characterItem.species,
+                characterItem.gender,
+                characterItem.location.name,
+                characterItem.image
+
+            )
+
+
+
+
         }
+
+    }
+    private fun save (characterId:Int,
+                      characterName:String,
+                      characterAlive:String,
+                      characterStatus:String,
+                      characterSpecies:String,
+                      characterGender:String,
+                      characterLocation:String,
+                      characterImage:String) {
+        viewModel.save(
+            characterId = characterId,
+            characterName = characterName,
+           // characterAlive = characterAlive,
+            characterStatus = characterStatus,
+            characterSpecies = characterSpecies,
+            characterGender = characterGender,
+            characterLocation = characterLocation,
+            characterImage = characterImage)
     }
 }
 

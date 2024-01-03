@@ -44,10 +44,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_homeFragment_to_splashFragment)
-        }
-
         adapter = HomeAdapter { character ->
             onItemSelected(character)
         }
@@ -125,7 +121,7 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
 
     private fun onItemSelected(characterItem : CharacterItem) {
         notFound = false
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(idCharacter = characterItem.id))
+        findNavController().navigate(HomeFragmentDirections.actionHomeToDetailFragment(idCharacter = characterItem.id))
     }
     private fun showNotFound() {
         if (notFound) {
@@ -136,8 +132,16 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
                 .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white))
             sbError.show()
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (isEnabled) {
+                isEnabled = false
+                findNavController().popBackStack(R.id.homeFragment, false)
+            }
+        }
+      }
     }
-}
+
+
 
 
 

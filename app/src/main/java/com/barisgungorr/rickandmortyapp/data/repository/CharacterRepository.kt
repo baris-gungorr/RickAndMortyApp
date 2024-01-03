@@ -26,10 +26,9 @@ class CharacterRepository @Inject constructor(
     suspend fun getCharactersById(id: String): Response<CharacterItem> = apiService.getCharactersById(
             CHARACTER +id)
 
-    //FAVORITE
+    // FAVORITE
   suspend fun save(characterId:Int,
                      characterName:String,
-                     characterAlive:String,
                      characterStatus:String,
                      characterSpecies:String,
                      characterGender:String,
@@ -39,7 +38,6 @@ class CharacterRepository @Inject constructor(
                  val newFavorite = Favorite(
                 characterId,
                 characterName,
-                characterAlive,
                 characterStatus,
                 characterSpecies,
                 characterGender,
@@ -55,8 +53,8 @@ class CharacterRepository @Inject constructor(
     }
 
    suspend fun deleteFavorite(characterId: Int) {
-       val deleteFavorite = Favorite(characterId, "", "", "", "", "", "", "")
-        favoriteDao.deleteFavorite(deleteFavorite)
+       val deleteFavorite = Favorite(characterId = characterId)
+       favoriteDao.deleteFavorite(deleteFavorite)
     }
 
     suspend fun searchFavorite(searchKeyword: String): List<Favorite> = withContext(Dispatchers.IO) {

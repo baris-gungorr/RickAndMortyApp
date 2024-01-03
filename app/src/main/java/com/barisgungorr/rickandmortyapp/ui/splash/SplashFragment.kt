@@ -2,7 +2,6 @@ package com.barisgungorr.rickandmortyapp.ui.splash
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.media.AudioManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -82,7 +81,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun pageTransition() {
-        findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+        findNavController().navigate(R.id.actionSplahToHomeFragment)
     }
 
     private fun playClickSound() {

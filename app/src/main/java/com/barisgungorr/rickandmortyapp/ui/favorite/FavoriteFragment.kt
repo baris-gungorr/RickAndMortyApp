@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.entity.Favorite
@@ -104,7 +105,7 @@ class FavoriteFragment : Fragment() {
             false
         }
         ivHome.setOnClickListener {
-            // findNavController().navigate(R.id.favoriteToMain)
+             findNavController().navigate(R.id.actionFavoriteToMainFragment)
         }
     }
 
