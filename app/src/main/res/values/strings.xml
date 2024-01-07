@@ -5,8 +5,8 @@
     <string name="character_not_found">Character not found</string>
     <string name="Episodes">Episodes</string>
 
-    -
-
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 
     <string name="favorite_page_title">MY FAVORİTES</string>
     <string name="favorite_page_remove_tv">Delete?</string>
