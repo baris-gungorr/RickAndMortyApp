@@ -7,8 +7,8 @@
             android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_home"
-                android:icon="@drawable/baseline_home_24"
-                android:title="Home"/>
+                android:icon="@drawable/baseline_settings_24"
+                android:title="Settings"/>
            <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/baseline_share_24"
