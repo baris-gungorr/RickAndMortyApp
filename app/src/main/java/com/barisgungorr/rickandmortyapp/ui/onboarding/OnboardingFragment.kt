@@ -1,24 +1,21 @@
-package com.barisgungorr.rickandmortyapp.ui.splash
+package com.barisgungorr.rickandmortyapp.ui.onboarding
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import com.barisgungorr.rickandmortyapp.databinding.FragmentSplashBinding
-import android.media.MediaPlayer
 import androidx.navigation.fragment.findNavController
 import com.barisgungorr.rickandmortyapp.R
+import com.barisgungorr.rickandmortyapp.databinding.FragmentOnboardingBinding
 
 
-class SplashFragment : Fragment() {
-
-    private lateinit var binding: FragmentSplashBinding
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+class OnboardingFragment : Fragment() {
+    private lateinit var binding: FragmentOnboardingBinding
     private lateinit var mediaPlayer: MediaPlayer
     private var musicPosition: Int = 0
 
@@ -28,41 +25,17 @@ class SplashFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentSplashBinding.inflate(inflater, container, false)
+        binding = FragmentOnboardingBinding.inflate(inflater, container, false)
         musicPlayer()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        themeMode()
         clickImage()
 
     }
 
-    private fun themeMode() {
-        val switchMode = binding.switchMode
-
-        sharedPreferences = requireContext().getSharedPreferences("MODE", Context.MODE_PRIVATE)
-
-        val nightMode = sharedPreferences.getBoolean("nightMode", false)
-
-        if (nightMode) {
-            switchMode.isChecked = true
-        }
-        switchMode.setOnClickListener {
-            if (nightMode) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                editor = sharedPreferences.edit()
-                editor.putBoolean("nightMode", false)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                editor = sharedPreferences.edit()
-                editor.putBoolean("nightMode", true)
-            }
-            editor.commit()
-        }
-    }
 
     private fun musicPlayer() {
         if (!::mediaPlayer.isInitialized || !mediaPlayer.isPlaying) {

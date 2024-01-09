@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.splash.SplashFragment"
+    tools:context=".ui.onboarding.OnboardingFragment"
     style="@style/ScreenBackground">
 
     <ImageView
@@ -27,7 +27,6 @@
         android:layout_marginTop="72dp"
         android:fontFamily="@font/get_schwifty"
         android:text="Press The eye and see what happens"
-
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,16 +34,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:thumb="@drawable/thumb"
-        app:track="@drawable/track"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.appcompat.widget.SwitchCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

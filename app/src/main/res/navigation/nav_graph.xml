@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.barisgungorr.rickandmortyapp.ui.splash.SplashFragment"
+        android:name="com.barisgungorr.rickandmortyapp.ui.onboarding.OnboardingFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_onboarding" >
         <action
             android:id="@+id/actionSplahToHomeFragment"
             app:destination="@id/homeFragment" />
@@ -31,6 +31,9 @@
             app:destination="@id/splashFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/actionHomeToSettings"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -58,6 +61,15 @@
             app:argType="com.barisgungorr.rickandmortyapp.data.entity.Favorite" />
         <action
             android:id="@+id/actionFavoriteToMainFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.barisgungorr.rickandmortyapp.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/actionSettingsToMain"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> binding.bottomNav.isVisible = true
                 R.id.favoriteFragment -> binding.bottomNav.isVisible = true
                 R.id.splashFragment,
-                R.id.detailFragment
+                R.id.detailFragment,
+                R.id.settingsFragment,
                 -> {
                     binding.bottomNav.isGone = true
                 }

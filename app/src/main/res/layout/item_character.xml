@@ -54,8 +54,8 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvStatus"
             app:layout_constraintTop_toBottomOf="@+id/ivCharacters" />
