@@ -12,7 +12,9 @@ import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.entity.Favorite
 import com.barisgungorr.rickandmortyapp.databinding.FragmentFavoriteBinding
@@ -39,7 +41,7 @@ class FavoriteFragment : Fragment() {
         initVariables()
         observe()
         initViews()
-
+        swipeToCallBack()
     }
 
     private fun initVariables() {
@@ -55,7 +57,6 @@ class FavoriteFragment : Fragment() {
 
             binding.ivEmpty.isVisible = isFavoritesEmpty
             binding.tvEmpty.isVisible = isFavoritesEmpty
-
 
             adapter = FavoriteAdapter(
                 callbacks = object : FavoriteAdapter.FavoriteCallBack {
@@ -84,7 +85,6 @@ class FavoriteFragment : Fragment() {
         }
         builder.show()
     }
-
     @SuppressLint("ClickableViewAccessibility")
     private fun initViews() = with(binding) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -105,8 +105,23 @@ class FavoriteFragment : Fragment() {
             false
         }
         ivHome.setOnClickListener {
-             findNavController().navigate(R.id.actionFavoriteToMainFragment)
+            findNavController().navigate(R.id.actionFavoriteToMainFragment)
         }
+    }
+    private fun swipeToCallBack() {
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+
+                viewModel.favoriteList.value?.get(position)?.let {
+                    showDeleteFavoriteDialog(it)
+                }
+
+                binding.rv.adapter?.notifyItemRemoved(position)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.rv)
     }
 
     override fun onResume() {

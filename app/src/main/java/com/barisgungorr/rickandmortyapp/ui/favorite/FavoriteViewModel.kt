@@ -25,7 +25,6 @@ class FavoriteViewModel @Inject constructor(
             favoriteList.value = characterRepository.getFavorites()
         }
     }
-
     fun deleteFavorite(characterId: Int) {
         viewModelScope.launch {
             characterRepository.deleteFavorite(characterId)

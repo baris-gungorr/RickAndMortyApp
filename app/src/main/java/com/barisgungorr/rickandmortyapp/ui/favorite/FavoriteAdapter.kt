@@ -1,9 +1,15 @@
 package com.barisgungorr.rickandmortyapp.ui.favorite
 
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.entity.Favorite
 import com.barisgungorr.rickandmortyapp.databinding.ItemViewFavoriteCardBinding
 
