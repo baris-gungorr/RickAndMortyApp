@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.FragmentHomeBinding
+
 import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -43,6 +44,7 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
     private var searchCharacter: Boolean = false
 
     private lateinit var drawerLayout: DrawerLayout
+    private val bottomSheetFragment = BottomSheetFragment()
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -61,13 +63,11 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
 
         drawerLayout = binding.drawerLayout
 
-
         val toolbar = binding.toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         val navigationView = binding.navView
         navigationView.setNavigationItemSelectedListener(this)
-
 
         val toggle = ActionBarDrawerToggle(
             requireActivity(),
@@ -78,15 +78,9 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
         )
         toggle.syncState()
 
-
-
-
-
-
         initListComponents()
         return binding.root
     }
-
 
     private fun searchCharacters() {
         homeViewModel.onCreateList()
@@ -112,7 +106,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
         }
         return true
     }
-
     override fun onQueryTextChange(newText: String?): Boolean {
         return true
     }
@@ -128,7 +121,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
                 val characterList: ArrayList<CharacterItem> = it.body()!!
                 adapter.submitList(characterList)
             }
-
             homeViewModel.isLoading.observe(viewLifecycleOwner, Observer {
                 binding.pbCharacter.isVisible = it
             })
@@ -160,7 +152,6 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
             showNotFound()
         })
     }
-
     private fun onItemSelected(characterItem: CharacterItem) {
         notFound = false
         findNavController().navigate(HomeFragmentDirections.actionHomeToDetailFragment(idCharacter = characterItem.id))
@@ -185,29 +176,21 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
             R.id.nav_settings ->
-
                 findNavController().navigate(R.id.actionHomeToSettings)
-
-
-
-              //  R.id.nav_about->
-
-
-
-                R.id.nav_logout->
-                    AlertDialog.Builder(requireContext()).apply {
-                setMessage("are you exit")
-                setTitle("rick and morty")
-                setIcon(R.drawable.baseline_info_24)
-
-                setPositiveButton("yes") { _, _ ->
-                    requireActivity().finish()
-                }
-                setNegativeButton("NO") { _, _ -> }
-
-            }.show()
+            R.id.nav_about -> {
+                bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+            }
+            R.id.nav_logout ->
+                AlertDialog.Builder(requireContext()).apply {
+                    setMessage("are you exit")
+                    setTitle("rick and morty")
+                    setIcon(R.drawable.baseline_info_24)
+                    setPositiveButton("yes") { _, _ ->
+                        requireActivity().finish()
+                    }
+                    setNegativeButton("NO") { _, _ -> }
+                }.show()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

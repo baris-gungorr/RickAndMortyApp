@@ -11,18 +11,20 @@
         android:layout_width="@dimen/divider_width"
         android:layout_height="@dimen/divider_height"
         android:layout_marginTop="@dimen/margin_small"
-        android:background="@drawable/foto"
+        android:background="@drawable/bottom_sheet_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/DevImageCard"
-        android:layout_width="150dp"
-        android:layout_height="190dp"
-        android:layout_marginTop="@dimen/margin_big"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="@dimen/card_corner_radius_small"
         app:cardElevation="@dimen/card_elevation"
+        app:layout_constraintBottom_toTopOf="@+id/tvAboutDeveloperTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +32,10 @@
 
         <ImageView
             android:id="@+id/devImage"
-            android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/baseline_unknown" />
+            tools:srcCompat="@drawable/baseline_info_24" />
 
     </androidx.cardview.widget.CardView>
 
