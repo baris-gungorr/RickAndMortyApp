@@ -1,6 +1,7 @@
 package com.barisgungorr.rickandmortyapp.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.FragmentHomeBinding
+import com.barisgungorr.rickandmortyapp.ui.bottomsheet.BottomSheetFragment
 
 import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import com.google.android.material.navigation.NavigationView
@@ -191,6 +192,14 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
                     }
                     setNegativeButton("NO") { _, _ -> }
                 }.show()
+
+            R.id.nav_share -> {
+                val shareIntent = Intent(Intent.ACTION_SEND)
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Rick and Morty")
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "https://github.com/baris-gungorr/RickAndMortyApp")
+                startActivity(Intent.createChooser(shareIntent, "Share with"))
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true

@@ -1,4 +1,4 @@
-package com.barisgungorr.rickandmortyapp.ui.home
+package com.barisgungorr.rickandmortyapp.ui.bottomsheet
 
 import android.content.Intent
 import android.net.Uri
