@@ -5,13 +5,21 @@ import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.Episodes
 import com.barisgungorr.rickandmortyapp.data.dto.EpisodesItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
+import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiService {
     @GET()
     suspend fun getCharacters(@Url url:String): Response<Character>
+
+   //@GET()
+   //suspend fun getAllCharacters(
+    //   @Query("page") page: String
+   //): Response<ResponseApi>
+
     @GET
     suspend fun getCharactersById(@Url url:String): Response<CharacterItem>
     @GET

@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 class HomeAdapter(
     private val onItemSelected:(CharacterItem) -> Unit
@@ -30,7 +33,7 @@ class HomeAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = getItem(position) ?: return
         holder.bind(item, onItemSelected)
     }
 }

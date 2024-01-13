@@ -5,6 +5,7 @@ import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
+import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
 import com.barisgungorr.rickandmortyapp.data.entity.Favorite
 import com.barisgungorr.rickandmortyapp.data.source.locale.FavoriteDao
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,10 @@ class CharacterRepository @Inject constructor(
     private val favoriteDao: FavoriteDao
 ){
     suspend fun getCharacters(query: String): Response<Character> = apiService.getCharacters(
-          CHARACTER +query)
+        CHARACTER +query)
+
+   // suspend fun getCharacters(query: String): Response<ResponseApi> = apiService.getAllCharacters(
+     //     CHARACTER +query)
 
     suspend fun getCharactersByName(name: String): Response<ItemsInfo> = apiService.getCharactersByName(
             CHARACTER +name)
