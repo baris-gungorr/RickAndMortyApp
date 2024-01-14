@@ -8,11 +8,9 @@
     android:background="@color/dark_gray"
     tools:context=".ui.detail.DetailFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/ivDetailCharacter"
@@ -137,7 +135,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="20dp"
             android:layout_marginTop="48dp"
-            android:text="@string/Episodes"
+            android:text="@string/detail_fragment_episodes_tv"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"

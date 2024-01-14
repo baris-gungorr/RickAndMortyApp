@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RickAndMortyApp</string>
+
+    //Home
+    <string name="home_fragment_character_not">Karakter bulunamadı</string>
+    <string name="home_fragment_open_nav">Open Navigation Drawer</string>
+    <string name="home_fragment_close_nav">Close Navigation Drawer</string>
+    <string name="home_fragment_error_tv">Hata</string>
+    <string name="home_fragment_not_found">Bulunamadı</string>
+
+    //Detail
+    <string name="detail_fragment_episodes_tv">Bölümler</string>
+
+
+    //Favorite
+    <string name="favorite_page_title">MY FAVORİTES</string>
+    <string name="favorite_page_remove_tv">Delete?</string>
+    <string name="favorite_page_yes_tv">YES</string>
+    <string name="favorite_page_add_favorite">Add Favorite</string>
+    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ?</string>
+
+
+    //Bottom Sheet
+    <string name="bottom_sheet_about_developer_title">Geliştirici hakkında</string>
+    <string name="bottom_sheet_about_developer_text">Yazılım sektöründeki son gelişmeleri yakından takip ediyor ve Android uygulama geliştirmede yeni teknolojileri öğrenmek ve uygulamak için çaba gösteriyorum. Amacım kullanıcı dostu, yenilikçi ve etkileyici mobil uygulamalar geliştirerek insanlığa değer katmak.</string>
+    <string name="bottom_sheet_about_application_title">Uygulama hakkında</string>
+    <string name="bottom_sheet_about_application_text">Bu uygulama, animasyon televizyon dizisi Rick and Mortynin karakterlerini görüntülemenizi, ayrıntılarını öğrenmenizi ve favorilerinize eklemenizi sağlar</string>
+    <string name="bottom_sheet_btn_social">GİT</string>
+</resources>

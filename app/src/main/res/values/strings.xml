@@ -1,16 +1,30 @@
 <resources>
     <string name="app_name">RickAndMortyApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="character_not_found">Character not found</string>
-    <string name="Episodes">Episodes</string>
 
-    <string name="open_nav">Open Navigation Drawer</string>
-    <string name="close_nav">Close Navigation Drawer</string>
+    //Home
+    <string name="home_fragment_character_not">Character not found</string>
 
+    <string name="home_fragment_open_nav">Open Navigation Drawer</string>
+    <string name="home_fragment_close_nav">Close Navigation Drawer</string>
+    <string name="home_fragment_error_tv">Error</string>
+    <string name="home_fragment_not_found">Not Found</string>
+    //Detail
+    <string name="detail_fragment_episodes_tv">Episodes</string>
+
+
+
+    //Favorite
     <string name="favorite_page_title">MY FAVORİTES</string>
     <string name="favorite_page_remove_tv">Delete?</string>
     <string name="favorite_page_yes_tv">YES</string>
     <string name="favorite_page_add_favorite">Add Favorite</string>
-    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ? </string>
+    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ?</string>
+    //Bottom Sheet
+    <string name="bottom_sheet_about_developer_title">About the Developer</string>
+    <string name="bottom_sheet_about_developer_text">I closely follow the latest developments in the software industry and strive to learn and apply new technologies in Android application development. My goal is to add value to humanity by developing user-friendly, innovative and impressive mobile applications.</string>
+    <string name="bottom_sheet_about_application_title">About Application</string>
+    <string name="bottom_sheet_about_application_text">This application allows you to view the characters of the animated television series Rick and Morty, learn their details and add them to your favourites</string>
+    <string name="bottom_sheet_btn_social">GO</string>
+
+
 </resources>
