@@ -67,35 +67,38 @@ class SettingsFragment : Fragment() {
     }
 
     private fun selectLanguage() = with(binding) {
+
+        val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val language = sharedPref.getString("language", "en") ?: "en"
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+
         btnLanguage.setOnClickListener{
+            btnLanguage.text = language
             val popup = PopupMenu(requireContext(), btnLanguage)
             popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
+            popup.menu.findItem(R.id.action_turkish).isChecked = language == "tr"
+            popup.menu.findItem(R.id.action_english).isChecked = language == "en"
             popup.show()
 
             popup.setOnMenuItemClickListener { item ->
                 when(item.itemId) {
                     R.id.action_turkish -> {
-                        val language = "tr"
-                        val locale = Locale(language)
-                        Locale.setDefault(locale)
-                        val config = Configuration()
-                        config.locale = locale
-                        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+                        sharedPref.edit().putString("language", "tr").apply()
                         val intent = Intent(requireContext(), MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         requireActivity().finish()
                         true
                     }
                     R.id.action_english -> {
-                        val language = "en"
-                        val locale = Locale(language)
-                        Locale.setDefault(locale)
-                        val config = Configuration()
-                        config.locale = locale
-                        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
 
-
+                        sharedPref.edit().putString("language", "en").apply()
                         val intent = Intent(requireContext(), MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         requireActivity().finish()
                         true

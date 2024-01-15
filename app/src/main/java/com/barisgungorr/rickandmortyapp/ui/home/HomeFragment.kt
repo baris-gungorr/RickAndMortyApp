@@ -77,8 +77,8 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
             requireActivity(),
             drawerLayout,
             toolbar,
-            R.string.open_nav,
-            R.string.close_nav
+            R.string.home_fragment_open_nav,
+            R.string.home_fragment_close_nav
         )
         toggle.syncState()
 
@@ -165,7 +165,7 @@ class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTex
         if (notFound) {
             val sbError = Snackbar.make(
                 binding.root,
-                R.string.character_not_found, Snackbar.ANIMATION_MODE_SLIDE
+                R.string.home_fragment_character_not, Snackbar.ANIMATION_MODE_SLIDE
             )
                 .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.white))
             sbError.show()

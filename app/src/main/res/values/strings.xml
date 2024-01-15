@@ -1,17 +1,23 @@
 <resources>
     <string name="app_name">RickAndMortyApp</string>
+    //Onboarding
+    <string name="onboarding_fragment_title">Press The eye and see what happens</string>
 
     //Home
     <string name="home_fragment_character_not">Character not found</string>
-
     <string name="home_fragment_open_nav">Open Navigation Drawer</string>
     <string name="home_fragment_close_nav">Close Navigation Drawer</string>
     <string name="home_fragment_error_tv">Error</string>
     <string name="home_fragment_not_found">Not Found</string>
+
     //Detail
     <string name="detail_fragment_episodes_tv">Episodes</string>
-
-
+    <string name="detail_fragment_character_name">Name</string>
+    <string name="detail_fragment_character_status">Status</string>
+    <string name="detail_fragment_character_">-</string>
+    <string name="detail_fragment_character_species">Species</string>
+    <string name="detail_fragment_character_gender">Gender</string>
+    <string name="detail_fragment_character_location">Location</string>
 
     //Favorite
     <string name="favorite_page_title">MY FAVORİTES</string>
@@ -19,12 +25,46 @@
     <string name="favorite_page_yes_tv">YES</string>
     <string name="favorite_page_add_favorite">Add Favorite</string>
     <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ?</string>
+    <string name="favorite_page_no_character"> No characters in favourites </string>
+
     //Bottom Sheet
     <string name="bottom_sheet_about_developer_title">About the Developer</string>
     <string name="bottom_sheet_about_developer_text">I closely follow the latest developments in the software industry and strive to learn and apply new technologies in Android application development. My goal is to add value to humanity by developing user-friendly, innovative and impressive mobile applications.</string>
     <string name="bottom_sheet_about_application_title">About Application</string>
     <string name="bottom_sheet_about_application_text">This application allows you to view the characters of the animated television series Rick and Morty, learn their details and add them to your favourites</string>
+    <string name="bottom_sheet_about_social_title">Social Media</string>
     <string name="bottom_sheet_btn_social">GO</string>
+
+    //Settings
+    <string name="settings_fragment_title">Settings</string>
+    <string name="settings_general_title">General</string>
+    <string name="settings_theme_title">Theme</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_select_text">Select</string>
+
+    //Item Character
+    <string name="item_character_status">Alive</string>
+    <string name="item_character_name">Name</string>
+    <string name="item_character_species">Species</string>
+
+
+    //Item Episode
+    <string name="item_episode_name">Episode</string>
+
+    //Item Favorite
+    <string name="item_favorite_character_name">Character Name</string>
+    <string name="item_favorite_character_status">Character Status</string>
+    <string name="item_favorite_character_species">Character Species</string>
+    <string name="item_favorite_character_gender">Character Gender</string>
+    <string name="item_favorite_character_location">Character Location</string>
+
+    //Navigation Drawer
+    <string name="nav_drawer_title">Barış Güngör / Mobile Developer</string>
+    <string name="nav_drawer_settings">Settings</string>
+    <string name="nav_drawer_share">Share</string>
+    <string name="nav_drawer_about">About Us</string>
+    <string name="nav_drawer_logout">Logout</string>
+
 
 
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="175dp"
@@ -12,21 +14,21 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/foto"/>
+        android:layout_marginTop="80dp"
+        android:src="@drawable/foto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Barış Güngör / Mobile Developer"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="85dp"
+        android:text="@string/nav_drawer_title"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="gungorbaris.developer@gmail.com"
-        android:textColor="@color/white"
-        android:layout_marginBottom="10dp"
-        />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

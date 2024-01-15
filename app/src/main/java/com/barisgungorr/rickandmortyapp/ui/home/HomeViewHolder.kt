@@ -15,7 +15,7 @@ class HomeViewHolder(view: View): RecyclerView.ViewHolder(view){
     fun bind(characterItem: CharacterItem, onItemSelected:(CharacterItem) -> Unit){
         binding.tvCharactersName.text = characterItem.name
         binding.tvStatus.text = characterItem.status
-        //binding.tv = characterItem.species
+        binding.tvSpecies.text = characterItem.species
 
         when(characterItem.status.lowercase()){
             "alive" -> binding.ivAlive.background = ContextCompat.getDrawable(itemView.context , R.drawable.baseline_alive)

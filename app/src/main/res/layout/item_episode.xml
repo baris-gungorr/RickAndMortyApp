@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="episode"
+        android:text="@string/item_episode_name"
         android:textColor="@color/dark_gray"
         android:textSize="16sp"/>
 

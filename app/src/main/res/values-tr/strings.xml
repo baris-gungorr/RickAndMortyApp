@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name">RickAndMortyApp</string>
 
+    //Onboarding
+    <string name="onboarding_fragment_title">Göze basın ve ne olduğunu görün</string>
+
     //Home
     <string name="home_fragment_character_not">Karakter bulunamadı</string>
     <string name="home_fragment_open_nav">Open Navigation Drawer</string>
@@ -11,20 +14,56 @@
 
     //Detail
     <string name="detail_fragment_episodes_tv">Bölümler</string>
-
+    <string name="detail_fragment_character_name">İsim</string>
+    <string name="detail_fragment_character_status">Statü</string>
+    <string name="detail_fragment_character_">-</string>
+    <string name="detail_fragment_character_species">Tür</string>
+    <string name="detail_fragment_character_gender">Cinsiyet</string>
+    <string name="detail_fragment_character_location">Lokasyon</string>
 
     //Favorite
-    <string name="favorite_page_title">MY FAVORİTES</string>
-    <string name="favorite_page_remove_tv">Delete?</string>
-    <string name="favorite_page_yes_tv">YES</string>
-    <string name="favorite_page_add_favorite">Add Favorite</string>
-    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ?</string>
-
+    <string name="favorite_page_title">Favorilerim</string>
+    <string name="favorite_page_remove_tv">Sil?</string>
+    <string name="favorite_page_yes_tv">Evet</string>
+    <string name="favorite_page_add_favorite">Favoriye eklendi</string>
+    <string name="favorite_page_delete_tv"> %s  Bu ürünü favorilerden silmek istediğinize emin misiniz ?</string>
+    <string name="favorite_page_no_character"> Favorilerde karakter yok </string>
 
     //Bottom Sheet
     <string name="bottom_sheet_about_developer_title">Geliştirici hakkında</string>
     <string name="bottom_sheet_about_developer_text">Yazılım sektöründeki son gelişmeleri yakından takip ediyor ve Android uygulama geliştirmede yeni teknolojileri öğrenmek ve uygulamak için çaba gösteriyorum. Amacım kullanıcı dostu, yenilikçi ve etkileyici mobil uygulamalar geliştirerek insanlığa değer katmak.</string>
     <string name="bottom_sheet_about_application_title">Uygulama hakkında</string>
     <string name="bottom_sheet_about_application_text">Bu uygulama, animasyon televizyon dizisi Rick and Mortynin karakterlerini görüntülemenizi, ayrıntılarını öğrenmenizi ve favorilerinize eklemenizi sağlar</string>
+    <string name="bottom_sheet_about_social_title">Sosyal medya</string>
     <string name="bottom_sheet_btn_social">GİT</string>
+
+    //Settings
+    <string name="settings_fragment_title">Ayarlar</string>
+    <string name="settings_general_title">Genel</string>
+    <string name="settings_theme_title">Tema</string>
+    <string name="settings_language_title">Dil</string>
+    <string name="settings_select_text">Seçiniz</string>
+
+    //İtem Character
+    <string name="item_character_status">Canlı</string>
+    <string name="item_character_name">İsim</string>
+    <string name="item_character_species">Türü</string>
+
+    //İtem episode
+    <string name="item_episode_name">Bölüm</string>
+
+    //Item Favorite
+    <string name="item_favorite_character_name">Karakter Adı</string>
+    <string name="item_favorite_character_status">Karakter Statüsü</string>
+    <string name="item_favorite_character_species">Karakter Türü</string>
+    <string name="item_favorite_character_gender">Karakter Cinsiyeti</string>
+    <string name="item_favorite_character_location">Karakter Lokasyon</string>
+
+    //Navigation Drawer
+    <string name="nav_drawer_title">Barış Güngör / Mobil uygulama geliştirici</string>
+    <string name="nav_drawer_settings">Ayarlar</string>
+    <string name="nav_drawer_share">Paylaş</string>
+    <string name="nav_drawer_about">Hakkında</string>
+    <string name="nav_drawer_logout">Çıkış yap</string>
+
 </resources>

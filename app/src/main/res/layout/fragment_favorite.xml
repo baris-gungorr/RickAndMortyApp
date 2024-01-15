@@ -34,14 +34,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
-        android:text="FAVORİTE"
-
+        android:text="@string/favorite_page_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -81,28 +79,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rv"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="There are no desseerts in favorites"
+        android:text="@string/favorite_page_no_character"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivEmpty" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
