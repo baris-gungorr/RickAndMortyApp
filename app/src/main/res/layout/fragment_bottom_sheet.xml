@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    style="@style/ScreenBackground">
 
     <View
         android:id="@+id/divider"
@@ -24,6 +25,7 @@
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="@dimen/card_corner_radius_small"
         app:cardElevation="@dimen/card_elevation"
+        style="@style/CardBackground"
         app:layout_constraintBottom_toTopOf="@+id/tvAboutDeveloperTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -47,6 +49,7 @@
         android:text="@string/bottom_sheet_about_developer_title"
         android:textSize="16sp"
         android:textStyle="bold"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +65,7 @@
         android:text="@string/bottom_sheet_about_developer_text"
         android:textAlignment="center"
         android:textSize="16sp"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +79,7 @@
         android:text="@string/bottom_sheet_about_application_title"
         android:textSize="16sp"
         android:textStyle="bold"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +95,7 @@
         android:text="@string/bottom_sheet_about_application_text"
         android:textAlignment="center"
         android:textSize="16sp"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAboutApplicationTitle" />
@@ -103,6 +109,7 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,10 +120,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/pp"
+        android:backgroundTint="@color/tabColor"
         android:text="@string/bottom_sheet_btn_social"
         android:textSize="20sp"
         android:textStyle="bold"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAboutSocialTitle" />

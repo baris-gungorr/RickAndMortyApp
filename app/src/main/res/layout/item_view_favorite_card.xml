@@ -14,6 +14,7 @@
         android:layout_height="200dp"
         android:layout_margin="5dp"
         android:backgroundTint="@color/dark_gray"
+        style="@style/CardView"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +39,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="55dp"
                 android:layout_marginBottom="130dp"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"
                 app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +55,7 @@
                 android:layout_marginEnd="56dp"
                 android:text="@string/item_favorite_character_name"
                 android:textColor="@color/black"
+                style="@style/TextColor"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"
@@ -78,6 +79,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/item_favorite_character_status"
+                style="@style/TextColor"
                 app:layout_constraintStart_toEndOf="@+id/ivDetailAlive"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -88,6 +90,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/item_favorite_character_species"
+                style="@style/TextColor"
                 app:layout_constraintStart_toEndOf="@+id/tvStatusFavorite"
                 app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -99,6 +102,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="20dp"
                 android:text="@string/item_favorite_character_gender"
+                style="@style/TextColor"
                 app:layout_constraintBottom_toTopOf="@+id/tvLocation"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"
                 app:layout_constraintTop_toBottomOf="@+id/tvStatusFavorite" />
@@ -109,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="24dp"
+                style="@style/TextColor"
                 android:text="@string/item_favorite_character_location"
                 app:layout_constraintStart_toEndOf="@+id/ivCharacter"
                 app:layout_constraintTop_toBottomOf="@+id/tvGender" />

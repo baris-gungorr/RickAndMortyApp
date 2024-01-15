@@ -2,11 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.RickAndMortyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
-
         <item name="android:statusBarColor">@color/pp</item>
-
     </style>
-
 
     <style name="Theme.RickAndMortyApp" parent="Base.Theme.RickAndMortyApp" />
 
@@ -15,7 +12,7 @@
     </style>
 
     <style name="CardBackground">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/gray</item>
     </style>
 
     <style name="TextColor">
@@ -25,5 +22,6 @@
     <style name="ImageChange">
         <item name="android:textColor">@drawable/eye</item>
     </style>
+
 
 </resources>

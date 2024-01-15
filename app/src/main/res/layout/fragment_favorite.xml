@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/ScreenBackground"
     tools:context=".ui.favorite.FavoriteFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -27,7 +28,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/tabColor"
+        android:background="@color/colorThird"
         android:elevation="5dp"
         android:queryHint="Search in Favorites"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +45,7 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        style="@style/TextColor"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -91,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/favorite_page_no_character"
+        style="@style/TextColor"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:layout_margin="16dp"
+    style="@style/CardView"
     android:backgroundTint="@color/dark_gray"
     app:cardCornerRadius="32dp"
     app:cardElevation="12.dp">
@@ -22,6 +23,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/item_character_status"
             android:textColor="@color/white"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCharactersName" />
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/item_character_name"
+            style="@style/TextColor"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/item_character_species"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStatus" />

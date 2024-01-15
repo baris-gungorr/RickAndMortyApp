@@ -65,6 +65,10 @@
     <string name="nav_drawer_about">About Us</string>
     <string name="nav_drawer_logout">Logout</string>
 
+    //Bottom Menu
+    <string name="nav_menu_home">Home</string>
+    <string name="nav_menu_favorite">Favorite</string>
+
 
 
 </resources>

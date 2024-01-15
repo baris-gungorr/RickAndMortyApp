@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_gray"
+    style="@style/ScreenBackground"
     tools:context=".ui.detail.DetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +31,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/detail_fragment_character_name"
+            style="@style/TextColor"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -65,6 +66,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/detail_fragment_character_status"
+                style="@style/TextColor"
                 android:textColor="@color/white"
                 android:textSize="16sp">
 
@@ -77,6 +79,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/detail_fragment_character_"
+                style="@style/TextColor"
                 android:textColor="@color/white"
                 android:textSize="16sp">
 
@@ -90,6 +93,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/detail_fragment_character_species"
+                style="@style/TextColor"
                 android:textColor="@color/white"
                 android:textSize="16sp">
 
@@ -103,6 +107,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="@string/detail_fragment_character_gender"
+            style="@style/TextColor"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
@@ -120,6 +125,7 @@
             android:text="@string/detail_fragment_character_location"
             android:textColor="@color/white"
             android:textSize="16sp"
+            style="@style/TextColor"
             app:layout_constraintEnd_toEndOf="@+id/tvDetailGender"
             app:layout_constraintStart_toStartOf="@+id/tvDetailGender"
             app:layout_constraintTop_toBottomOf="@+id/tvDetailGender">
@@ -135,6 +141,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="48dp"
             android:text="@string/detail_fragment_episodes_tv"
+            style="@style/TextColor"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"

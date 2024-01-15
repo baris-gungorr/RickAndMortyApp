@@ -80,8 +80,8 @@ class SettingsFragment : Fragment() {
             btnLanguage.text = language
             val popup = PopupMenu(requireContext(), btnLanguage)
             popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
-            popup.menu.findItem(R.id.action_turkish).isChecked = language == "tr"
-            popup.menu.findItem(R.id.action_english).isChecked = language == "en"
+            popup.menu.findItem(R.id.action_turkish).isChecked = language == "en"
+            popup.menu.findItem(R.id.action_english).isChecked = language == "tr"
             popup.show()
 
             popup.setOnMenuItemClickListener { item ->
