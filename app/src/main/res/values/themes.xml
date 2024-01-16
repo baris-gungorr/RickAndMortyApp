@@ -12,7 +12,7 @@
     </style>
 
     <style name="CardBackground">
-        <item name="android:background">@color/gray</item>
+        <item name="android:background">@color/colorThird</item>
     </style>
 
     <style name="TextColor">

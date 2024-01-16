@@ -1,24 +1,24 @@
 package com.barisgungorr.rickandmortyapp.data.source.remote
 
-import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.Episodes
 import com.barisgungorr.rickandmortyapp.data.dto.EpisodesItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
+import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiService {
-    @GET()
-    suspend fun getCharacters(@Url url:String): Response<Character>
+   // @GET()
+   // suspend fun getCharacters(@Url url:String): Response<Character>
 
-   //@GET()
-   //suspend fun getAllCharacters(
-    //   @Query("page") page: String
-   //): Response<ResponseApi>
+   @GET(Constants.CHAR_POINT)
+   suspend fun getAllCharacter(
+       @Query("page") page: Int
+   ): Response<ResponseApi>
 
     @GET
     suspend fun getCharactersById(@Url url:String): Response<CharacterItem>

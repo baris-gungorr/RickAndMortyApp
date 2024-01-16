@@ -2,7 +2,6 @@ package com.barisgungorr.rickandmortyapp.data.repository
 
 import android.util.Log
 import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
-import com.barisgungorr.rickandmortyapp.data.dto.Character
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
@@ -18,8 +17,14 @@ class CharacterRepository @Inject constructor(
     private val apiService: ApiService,
     private val favoriteDao: FavoriteDao
 ){
-    suspend fun getCharacters(query: String): Response<Character> = apiService.getCharacters(
-        CHARACTER +query)
+    suspend fun getCharacters(query: String): Response<ResponseApi> {
+        val page: Int = try {
+            query.toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        return apiService.getAllCharacter(page)
+    }
 
    // suspend fun getCharacters(query: String): Response<ResponseApi> = apiService.getAllCharacters(
      //     CHARACTER +query)

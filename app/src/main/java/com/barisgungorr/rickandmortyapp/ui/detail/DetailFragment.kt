@@ -36,7 +36,6 @@ class DetailFragment : Fragment() {
     private val characterViewModel: HomeViewModel by viewModels()
     private val episodesViewModel: EpisodeViewModel by viewModels()
     private val viewModel: DetailViewModel by viewModels()
-
     private lateinit var adapter: EpisodeAdapter
     private lateinit var binding: FragmentDetailBinding
     private lateinit var characterItem: CharacterItem
@@ -142,7 +141,7 @@ class DetailFragment : Fragment() {
 
         binding.btnFavEmpty.setOnClickListener() {
             binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
-            requireView().snack(getString(R.string.favorite_page_add_favorite))
+           // requireView().snack(getString(R.string.favorite_page_add_favorite))
 
             viewModel.save(
                 characterItem.id,
@@ -158,7 +157,6 @@ class DetailFragment : Fragment() {
             findNavController().navigate(R.id.actionDetailToHomeFragment)
         }
     }
-
 }
 
 

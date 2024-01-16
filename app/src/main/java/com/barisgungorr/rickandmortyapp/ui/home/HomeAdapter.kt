@@ -16,7 +16,7 @@ import javax.inject.Inject
 class HomeAdapter(
     private val onItemSelected:(CharacterItem) -> Unit
 )
-    : ListAdapter<CharacterItem, HomeViewHolder>(DIFF_CALLBACK){
+    : PagingDataAdapter<CharacterItem, HomeViewHolder>(DIFF_CALLBACK){
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CharacterItem>() {
             override fun areItemsTheSame(oldItem: CharacterItem, newItem: CharacterItem): Boolean {
