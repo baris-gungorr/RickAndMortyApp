@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,7 +22,6 @@ import com.barisgungorr.rickandmortyapp.ui.episode.EpisodeAdapter
 import com.barisgungorr.rickandmortyapp.ui.episode.EpisodeViewModel
 import com.barisgungorr.rickandmortyapp.ui.home.HomeViewModel
 import com.barisgungorr.rickandmortyapp.util.extension.Url
-import com.barisgungorr.rickandmortyapp.util.extension.snack
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -133,15 +131,13 @@ class DetailFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setRecyclerViewEpisodes() {
-        adapter = EpisodeAdapter(listEpisodes)
-        adapter.notifyDataSetChanged()
+        adapter = EpisodeAdapter()
         binding.rvEpisodes.layoutManager = LinearLayoutManager(activity)
         binding.rvEpisodes.adapter = adapter
-
+        adapter.submitList(listEpisodes)
 
         binding.btnFavEmpty.setOnClickListener() {
             binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
-           // requireView().snack(getString(R.string.favorite_page_add_favorite))
 
             viewModel.save(
                 characterItem.id,
@@ -153,10 +149,9 @@ class DetailFragment : Fragment() {
                 characterItem.image
             )
         }
-            binding.ivHome.setOnClickListener {
+        binding.ivHome.setOnClickListener {
             findNavController().navigate(R.id.actionDetailToHomeFragment)
         }
     }
 }
-
 

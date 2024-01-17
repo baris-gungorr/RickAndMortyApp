@@ -12,9 +12,6 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ApiService {
-   // @GET()
-   // suspend fun getCharacters(@Url url:String): Response<Character>
-
    @GET(Constants.CHAR_POINT)
    suspend fun getAllCharacter(
        @Query("page") page: Int
