@@ -21,19 +21,25 @@
         app:titleTextColor="@color/white">
 
     </androidx.appcompat.widget.Toolbar>
-    <SearchView
-        android:id="@+id/searchView"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorThird"
-        android:elevation="5dp"
-        android:queryHint="Search in Favorites"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_search_24"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -55,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:background="@color/tabColor"
@@ -63,8 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
 
     <ImageView
         android:id="@+id/ivHome"

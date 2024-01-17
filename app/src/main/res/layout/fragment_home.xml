@@ -41,30 +41,35 @@ tools:openDrawer="start">
         </FrameLayout>
     </LinearLayout>
 
-    <SearchView
-        android:id="@+id/searchView"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/white"
-        android:elevation="5dp"
-        android:queryHint="Search in Characters"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="54dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/baseline_search_24"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCharacter"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
     <ProgressBar
         android:id="@+id/pbCharacter"
         android:layout_width="wrap_content"

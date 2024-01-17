@@ -7,7 +7,7 @@
     <string name="home_fragment_character_not">Character not found</string>
     <string name="home_fragment_open_nav">Open Navigation Drawer</string>
     <string name="home_fragment_close_nav">Close Navigation Drawer</string>
-    <string name="home_fragment_error_tv">Error</string>
+    <string name="home_fragment_error_tv">Error please check your internet connection</string>
     <string name="home_fragment_not_found">Not Found</string>
 
     //Detail

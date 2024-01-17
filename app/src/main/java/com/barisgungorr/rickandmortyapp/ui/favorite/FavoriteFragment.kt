@@ -3,6 +3,8 @@ package com.barisgungorr.rickandmortyapp.ui.favorite
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -25,7 +27,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoriteFragment : Fragment() {
     private lateinit var binding: FragmentFavoriteBinding
     private val viewModel: FavoriteViewModel by viewModels()
-    private lateinit var adapter: FavoriteAdapter
+
+
+    private val adapter: FavoriteAdapter by lazy {
+        FavoriteAdapter(
+            callbacks = object : FavoriteAdapter.FavoriteCallBack {
+                override fun onDeleteFavorite(favorite: Favorite) {
+                    showDeleteFavoriteDialog(favorite)
+                }
+            }
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,21 +61,12 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun observe() {
-
         viewModel.favoriteList.observe(viewLifecycleOwner) { favorites ->
-
             val isFavoritesEmpty = favorites.isEmpty()
 
             binding.ivEmpty.isVisible = isFavoritesEmpty
             binding.tvEmpty.isVisible = isFavoritesEmpty
 
-            adapter = FavoriteAdapter(
-                callbacks = object : FavoriteAdapter.FavoriteCallBack {
-                    override fun onDeleteFavorite(favorite: Favorite) {
-                        showDeleteFavoriteDialog(favorite)
-                    }
-                }
-            )
             binding.rv.adapter = adapter
             adapter.submitList(favorites.orEmpty())
         }
@@ -73,9 +76,7 @@ class FavoriteFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.favorite_page_title)
         builder.setMessage(getString(R.string.favorite_page_delete_tv, favorite.characterName))
-        // builder.setIcon(R.drawable.ic_app_icon)
         builder.setPositiveButton(R.string.favorite_page_yes_tv) { dialog, which ->
-
             viewModel.deleteFavorite(characterId = favorite.characterId)
             dialog.dismiss()
         }
@@ -84,29 +85,27 @@ class FavoriteFragment : Fragment() {
         }
         builder.show()
     }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun initViews() = with(binding) {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return true
-            }
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                viewModel.searchFavorite(newText)
-                return false
-            }
-        })
-        searchView.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
 
-                binding.searchView.isIconified = false
-            }
-            false
-        }
         ivHome.setOnClickListener {
             findNavController().navigate(R.id.actionFavoriteToMainFragment)
         }
+
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+
+                viewModel.searchFavorite(s.toString())
+            }
+        })
     }
+
     private fun swipeToCallBack() {
         val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

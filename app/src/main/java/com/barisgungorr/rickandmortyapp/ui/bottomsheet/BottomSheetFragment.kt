@@ -10,12 +10,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.databinding.FragmentBottomSheetBinding
+import com.barisgungorr.rickandmortyapp.util.constanst.Constants.WEBSITE_URL
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
+
 
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomSheetBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,18 +31,14 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         binding.btnSocial.setOnClickListener {
             goToWebsite()
         }
-
     }
-
 
     private fun goToWebsite() {
-        val websiteUrl = "https://bio.link/barisgungorr"
-        openWebsite(websiteUrl)
-
+        openWebsite(WEBSITE_URL)
     }
+
     private fun openWebsite(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
-
 }

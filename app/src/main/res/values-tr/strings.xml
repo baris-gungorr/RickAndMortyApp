@@ -9,7 +9,7 @@
     <string name="home_fragment_character_not">Karakter bulunamadı</string>
     <string name="home_fragment_open_nav">Open Navigation Drawer</string>
     <string name="home_fragment_close_nav">Close Navigation Drawer</string>
-    <string name="home_fragment_error_tv">Hata</string>
+    <string name="home_fragment_error_tv">Hata lütfen internet bağlantını kontrol et</string>
     <string name="home_fragment_not_found">Bulunamadı</string>
 
     //Detail
