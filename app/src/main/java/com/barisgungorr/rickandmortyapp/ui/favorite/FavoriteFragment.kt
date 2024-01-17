@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -89,21 +90,14 @@ class FavoriteFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun initViews() = with(binding) {
 
-
         ivHome.setOnClickListener {
             findNavController().navigate(R.id.actionFavoriteToMainFragment)
         }
 
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        etSearch.addTextChangedListener {
+            viewModel.searchFavorite(it.toString())
+        }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-
-                viewModel.searchFavorite(s.toString())
-            }
-        })
     }
 
     private fun swipeToCallBack() {

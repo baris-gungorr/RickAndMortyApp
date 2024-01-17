@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -45,7 +46,6 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: FragmentHomeBinding
-  //  private lateinit var adapter: HomeAdapter
     private val homeViewModel: HomeViewModel by viewModels()
     private var notFound: Boolean = false
     private var searchCharacter: Boolean = false
@@ -136,16 +136,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, NavigationView.
     @SuppressLint("NotifyDataSetChanged")
     private fun initListComponents() {
 
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                // Burada arama işlemini gerçekleştir
-                searchCharacters(s.toString())
-            }
-        })
+        binding.etSearch.addTextChangedListener {
+            searchCharacters(it.toString())
+        }
 
         binding.rvCharacter.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCharacter.adapter = adapter
