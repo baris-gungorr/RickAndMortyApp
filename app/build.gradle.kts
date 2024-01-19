@@ -77,5 +77,12 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
+    //okhttp
+    implementation ("com.squareup.okhttp3:okhttp:4.x")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.6.1")
+
 
 }

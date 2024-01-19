@@ -1,5 +1,7 @@
 package com.barisgungorr.rickandmortyapp.ui.detail
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -89,7 +93,7 @@ class DetailFragment : Fragment() {
 
     private fun searchCharacters() {
         CoroutineScope(Dispatchers.IO).launch {
-            characterViewModel.onCreateCharacterItemById(args.idCharacter.toString())
+            characterViewModel.loadCharacterItemById(args.idCharacter.toString())
         }
     }
 
@@ -110,6 +114,35 @@ class DetailFragment : Fragment() {
             .load(characterItem.image)
             .into(binding.ivDetailCharacter)
 
+        val scaleXAnimation = ObjectAnimator.ofFloat(binding.ivDetailCharacter, "scaleX", 1.5f)
+        val scaleYAnimation = ObjectAnimator.ofFloat(binding.ivDetailCharacter, "scaleY", 1.5f)
+        scaleXAnimation.duration = 1000
+        scaleYAnimation.duration = 1000
+
+        scaleXAnimation.repeatMode = ValueAnimator.REVERSE
+        scaleXAnimation.repeatCount = ValueAnimator.INFINITE
+        scaleYAnimation.repeatMode = ValueAnimator.REVERSE
+        scaleYAnimation.repeatCount = ValueAnimator.INFINITE
+
+        viewModel.startAnimation.observe(viewLifecycleOwner, Observer {
+            scaleXAnimation.start()
+            scaleYAnimation.start()
+        })
+
+        viewModel.stopAnimation.observe(viewLifecycleOwner, Observer {
+            scaleXAnimation.cancel()
+            scaleYAnimation.cancel()
+            binding.ivDetailCharacter.scaleX = 1f
+            binding.ivDetailCharacter.scaleY = 1f
+        })
+
+        binding.ivDetailCharacter.setOnClickListener {
+            viewModel.startAnimation()
+        }
+
+        binding.root.setOnClickListener {
+            viewModel.stopAnimation()
+        }
         binding.tvDetailName.text = characterItem.name
         binding.tvDetailStatus.text = characterItem.status
 
@@ -148,6 +181,7 @@ class DetailFragment : Fragment() {
                 characterItem.image
             )
         }
+
         binding.ivHome.setOnClickListener {
             findNavController().navigate(R.id.actionDetailToHomeFragment)
         }

@@ -1,5 +1,6 @@
 package com.barisgungorr.rickandmortyapp.ui.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,36 +31,45 @@ class HomeViewModel @Inject constructor(
     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
     val isLoading = MutableLiveData<Boolean>()
 
-
     val listData = Pager(PagingConfig(pageSize = 20)) {
         PagingSource(apiService)
     }.flow
 
-
-    fun onCreateCharacterByName(characterName: String){
+    fun loadList() {
         viewModelScope.launch {
-            isLoading.postValue(true)
-            val character = getCharacterByNameUseCase("?name=$characterName")
-            character?.let {
-                characterListItemResponse.postValue(character)
-                isLoading.postValue(false)
+            isLoading.value = true
+            try {
+                // Do something with listData if needed
+            } catch (e: Exception) {
+                Log.e("Error", "Error during data collection: ${e.message}", e)
+                // Consider notifying the user about the error
+            } finally {
+                isLoading.value = false
             }
         }
     }
 
-    fun onCreateCharacterItemById(characterId: String){
+    fun loadCharacterByName(characterName: String){
         viewModelScope.launch {
-            isLoading.postValue(true)
+            isLoading.value = true
+            val character = getCharacterByNameUseCase("?name=$characterName")
+            character?.let {
+                characterListItemResponse.postValue(character)
+                isLoading.value = false
+            }
+        }
+    }
+
+    fun loadCharacterItemById(characterId: String){
+        viewModelScope.launch {
+            isLoading.value = true
             val character = getCharacterByIdUseCase(characterId)
             character?.let {
                 characterItemResponse.postValue(character)
-                isLoading.postValue(false)
+                isLoading.value = false
             }
         }
     }
 }
-
-
-
 
 

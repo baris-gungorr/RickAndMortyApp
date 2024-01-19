@@ -109,8 +109,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, NavigationView.
     }
 
     private fun searchCharacters(query: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            homeViewModel.onCreateCharacterByName(query)
+       CoroutineScope(Dispatchers.IO).launch {
+            homeViewModel.loadCharacterByName(query)
         }
     }
 
@@ -124,12 +124,13 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, NavigationView.
                     binding.etSearch
                 )
             }
+            return true
         }
-        return true
+      return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        return true
+        return newText != null
     }
 
 
@@ -150,6 +151,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener, NavigationView.
                 adapter.submitData(lifecycle, pagingData)
             }
         })
+
+
 
         homeViewModel.characterListItemResponse.observe(viewLifecycleOwner, Observer { response ->
 
