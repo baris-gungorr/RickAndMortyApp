@@ -109,7 +109,7 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun initViews() {
+    private fun initViews() = with(binding) {
         Glide.with(binding.ivDetailCharacter.context)
             .load(characterItem.image)
             .into(binding.ivDetailCharacter)
@@ -132,33 +132,37 @@ class DetailFragment : Fragment() {
         viewModel.stopAnimation.observe(viewLifecycleOwner, Observer {
             scaleXAnimation.cancel()
             scaleYAnimation.cancel()
-            binding.ivDetailCharacter.scaleX = 1f
-            binding.ivDetailCharacter.scaleY = 1f
+            ivDetailCharacter.scaleX = 1f
+            ivDetailCharacter.scaleY = 1f
         })
 
-        binding.ivDetailCharacter.setOnClickListener {
+        ivDetailCharacter.setOnClickListener {
             viewModel.startAnimation()
         }
 
-        binding.root.setOnClickListener {
+        root.setOnClickListener {
             viewModel.stopAnimation()
         }
-        binding.tvDetailName.text = characterItem.name
-        binding.tvDetailStatus.text = characterItem.status
+        tvDetailName.text = characterItem.name
+        tvDetailStatus.text = characterItem.status
 
         when (characterItem.status.lowercase()) {
-            "alive" -> binding.ivDetailAlive.background =
+            "alive" -> ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_alive)
 
-            "dead" -> binding.ivDetailAlive.background =
+            "dead" -> ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_dead)
 
-            "unknown" -> binding.ivDetailAlive.background =
+            "unknown" -> ivDetailAlive.background =
                 ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
         }
-        binding.tvDetailSpecies.text = characterItem.species
-        binding.tvDetailLocation.text = characterItem.location.name
-        binding.tvDetailGender.text = characterItem.gender
+        tvDetailSpecies.text = characterItem.species
+        tvDetailLocation.text = characterItem.location.name
+        tvDetailGender.text = characterItem.gender
+
+        btnMedia.setOnClickListener {
+            findNavController().navigate(R.id.actionDetailsToMedia)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

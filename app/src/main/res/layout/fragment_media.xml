@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:argType="http://schemas.android.com/tools"
+    android:focusable="true"
+    android:keepScreenOn="true"
+    tools:context=".ui.media.MediaFragment">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.exoplayer2.ui.StyledPlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:show_subtitle_button="true"
+            argType:fastforward_increment="15000"
+            argType:resize_mode="fixed_width"
+            argType:rewind_increment="15000"
+            argType:show_buffering="when_playing"
+            argType:show_fastforward_button="true"
+            argType:show_next_button="false"
+            argType:show_previous_button="false"
+            argType:show_rewind_button="true"
+            argType:show_subtitle_button="true"
+            argType:use_artwork="true"
+            argType:use_controller="true"
+            argType:use_sensor_rotation="true">
+
+            <ImageView
+                android:id="@+id/ivHome"
+                android:layout_width="35dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/baseline_arrow_back_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
+        </com.google.android.exoplayer2.ui.StyledPlayerView>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

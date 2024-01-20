@@ -50,6 +50,9 @@
         <action
             android:id="@+id/actionDetailToFavoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/actionDetailsToMedia"
+            app:destination="@id/mediaFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -70,6 +73,15 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/actionSettingsToMain"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.barisgungorr.rickandmortyapp.ui.media.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" >
+        <action
+            android:id="@+id/actionMediaToHome"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

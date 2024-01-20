@@ -39,10 +39,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading.value = true
             try {
-                // Do something with listData if needed
             } catch (e: Exception) {
                 Log.e("Error", "Error during data collection: ${e.message}", e)
-                // Consider notifying the user about the error
+
             } finally {
                 isLoading.value = false
             }

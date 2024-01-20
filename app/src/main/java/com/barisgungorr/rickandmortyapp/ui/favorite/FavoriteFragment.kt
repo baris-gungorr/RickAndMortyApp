@@ -50,6 +50,7 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getFavorites()
         initVariables()
         observe()
         initViews()
@@ -87,7 +88,7 @@ class FavoriteFragment : Fragment() {
         builder.show()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     private fun initViews() = with(binding) {
 
         ivHome.setOnClickListener {
@@ -97,7 +98,6 @@ class FavoriteFragment : Fragment() {
         etSearch.addTextChangedListener {
             viewModel.searchFavorite(it.toString())
         }
-
     }
 
     private fun swipeToCallBack() {
@@ -114,10 +114,5 @@ class FavoriteFragment : Fragment() {
         }
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(binding.rv)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getFavorites()
     }
 }

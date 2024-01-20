@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.splashFragment,
                 R.id.detailFragment,
                 R.id.settingsFragment,
+                R.id.mediaFragment
                 -> {
                     binding.bottomNav.isGone = true
                 }

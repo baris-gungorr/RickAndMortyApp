@@ -70,4 +70,7 @@
     <string name="nav_menu_home">Home</string>
     <string name="nav_menu_favorite">Favorite</string>
 
+    //Media Fragment
+    <string name="media_page_title">Medya</string>
+
 </resources>
