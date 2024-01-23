@@ -109,67 +109,64 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun initViews() = with(binding) {
-        Glide.with(binding.ivDetailCharacter.context)
-            .load(characterItem.image)
-            .into(binding.ivDetailCharacter)
+    private fun initViews() {
+        binding.apply {
+            Glide.with(ivDetailCharacter.context)
+                .load(characterItem.image)
+                .into(ivDetailCharacter)
 
-        val scaleXAnimation = ObjectAnimator.ofFloat(binding.ivDetailCharacter, "scaleX", 1.5f)
-        val scaleYAnimation = ObjectAnimator.ofFloat(binding.ivDetailCharacter, "scaleY", 1.5f)
-        scaleXAnimation.duration = 1000
-        scaleYAnimation.duration = 1000
+            val scaleXAnimation = ObjectAnimator.ofFloat(ivDetailCharacter, "scaleX", 1.5f)
+            val scaleYAnimation = ObjectAnimator.ofFloat(ivDetailCharacter, "scaleY", 1.5f).apply {
+                duration = 1000
+                repeatMode = ValueAnimator.REVERSE
+                repeatCount = ValueAnimator.INFINITE
+            }
 
-        scaleXAnimation.repeatMode = ValueAnimator.REVERSE
-        scaleXAnimation.repeatCount = ValueAnimator.INFINITE
-        scaleYAnimation.repeatMode = ValueAnimator.REVERSE
-        scaleYAnimation.repeatCount = ValueAnimator.INFINITE
+            viewModel.startAnimation.observe(viewLifecycleOwner, Observer {
+                scaleXAnimation.start()
+                scaleYAnimation.start()
+            })
 
-        viewModel.startAnimation.observe(viewLifecycleOwner, Observer {
-            scaleXAnimation.start()
-            scaleYAnimation.start()
-        })
+            viewModel.stopAnimation.observe(viewLifecycleOwner, Observer {
+                scaleXAnimation.cancel()
+                scaleYAnimation.cancel()
+                ivDetailCharacter.scaleX = 1f
+                ivDetailCharacter.scaleY = 1f
+            })
 
-        viewModel.stopAnimation.observe(viewLifecycleOwner, Observer {
-            scaleXAnimation.cancel()
-            scaleYAnimation.cancel()
-            ivDetailCharacter.scaleX = 1f
-            ivDetailCharacter.scaleY = 1f
-        })
+            ivDetailCharacter.setOnClickListener {
+                viewModel.startAnimation()
+            }
 
-        ivDetailCharacter.setOnClickListener {
-            viewModel.startAnimation()
-        }
+            root.setOnClickListener {
+                viewModel.stopAnimation()
+            }
 
-        root.setOnClickListener {
-            viewModel.stopAnimation()
-        }
-        tvDetailName.text = characterItem.name
-        tvDetailStatus.text = characterItem.status
+            tvDetailName.text = characterItem.name
+            tvDetailStatus.text = characterItem.status
 
-        when (characterItem.status.lowercase()) {
-            "alive" -> ivDetailAlive.background =
-                ContextCompat.getDrawable(context, R.drawable.baseline_alive)
+            when (characterItem.status.lowercase()) {
+                "alive" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_alive)
+                "dead" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_dead)
+                "unknown" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
+            }
 
-            "dead" -> ivDetailAlive.background =
-                ContextCompat.getDrawable(context, R.drawable.baseline_dead)
+            tvDetailSpecies.text = characterItem.species
+            tvDetailLocation.text = characterItem.location.name
+            tvDetailGender.text = characterItem.gender
 
-            "unknown" -> ivDetailAlive.background =
-                ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
-        }
-        tvDetailSpecies.text = characterItem.species
-        tvDetailLocation.text = characterItem.location.name
-        tvDetailGender.text = characterItem.gender
-
-        btnMedia.setOnClickListener {
-            findNavController().navigate(R.id.actionDetailsToMedia)
+            btnMedia.setOnClickListener {
+                findNavController().navigate(R.id.actionDetailsToMedia)
+            }
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun setRecyclerViewEpisodes() {
+
+
+    private fun setRecyclerViewEpisodes() = with(binding) {
         adapter = EpisodeAdapter()
-        binding.rvEpisodes.layoutManager = LinearLayoutManager(activity)
-        binding.rvEpisodes.adapter = adapter
+        rvEpisodes.layoutManager = LinearLayoutManager(activity)
+        rvEpisodes.adapter = adapter
         adapter.submitList(listEpisodes)
 
         binding.btnFavEmpty.setOnClickListener() {
@@ -186,7 +183,7 @@ class DetailFragment : Fragment() {
             )
         }
 
-        binding.ivHome.setOnClickListener {
+        ivGoHome.setOnClickListener {
             findNavController().navigate(R.id.actionDetailToHomeFragment)
         }
     }

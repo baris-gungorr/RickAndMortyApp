@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
@@ -23,25 +24,29 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getCharacterByNameUseCase: GetCharacterByNameUseCase,
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
-    apiService: ApiService
+    private val apiService: ApiService
 ): ViewModel(){
 
     val charactersResponse = MutableLiveData<Response<ResponseApi>>()
-    val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
+    private val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
     val isLoading = MutableLiveData<Boolean>()
+    val searchResults = MutableLiveData<PagingData<ItemsInfo>>()
+    var searchQuery = MutableLiveData<String>()
 
-    val listData = Pager(PagingConfig(pageSize = 20)) {
+    var listData = Pager(PagingConfig(pageSize = 20)) {
         PagingSource(apiService)
     }.flow
 
     fun loadList() {
         viewModelScope.launch {
             isLoading.value = true
-            try {
-            } catch (e: Exception) {
-                Log.e("Error", "Error during data collection: ${e.message}", e)
 
+            try {
+                val response = apiService.getAllCharacter(1)
+                charactersResponse.postValue(response)
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error loading list: ${e.message}")
             } finally {
                 isLoading.value = false
             }
@@ -51,11 +56,10 @@ class HomeViewModel @Inject constructor(
     fun loadCharacterByName(characterName: String){
         viewModelScope.launch {
             isLoading.value = true
-            val character = getCharacterByNameUseCase("?name=$characterName")
-            character?.let {
-                characterListItemResponse.postValue(character)
-                isLoading.value = false
-            }
+            listData = Pager(PagingConfig(pageSize = 20)) {
+                PagingSource(apiService)
+            }.flow
+            isLoading.value = false
         }
     }
 
@@ -70,5 +74,3 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
-
-

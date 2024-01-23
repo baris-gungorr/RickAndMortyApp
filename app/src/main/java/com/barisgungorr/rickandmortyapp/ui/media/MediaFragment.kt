@@ -78,7 +78,7 @@ class MediaFragment : Fragment() {
     }
 
   private fun goToHomeFragment(){
-      binding.ivHome.setOnClickListener {
+      binding.ivMediaToHome.setOnClickListener {
           findNavController().navigate(R.id.actionMediaToHome)
       }
     }

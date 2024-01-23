@@ -13,8 +13,6 @@ import com.barisgungorr.rickandmortyapp.databinding.FragmentBottomSheetBinding
 import com.barisgungorr.rickandmortyapp.util.constanst.Constants.WEBSITE_URL
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
-
 class BottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomSheetBinding

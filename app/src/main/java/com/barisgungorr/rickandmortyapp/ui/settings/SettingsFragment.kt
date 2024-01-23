@@ -37,7 +37,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun transition() {
-        binding.ivHome.setOnClickListener {
+        binding.ivGoToHomeF.setOnClickListener {
             findNavController().navigate(R.id.actionSettingsToMain)
         }
     }

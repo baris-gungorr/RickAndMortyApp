@@ -4,34 +4,32 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
+import retrofit2.HttpException
 
 class PagingSource(
     private val apiService: ApiService
 ) : PagingSource<Int, CharacterItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterItem>): Int? {
-        return null
+        return state.anchorPosition
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterItem> {
-         try {
-
+        try {
             val currentPage = params.key ?: 1
             val response = apiService.getAllCharacter(currentPage)
-            val data = response.body()?.results ?: emptyList()
-            val responseData = mutableListOf<CharacterItem>()
-            responseData.addAll(data)
-
-            println("Page: $currentPage, Data: ${responseData.size}")
-
-           return LoadResult.Page(
-                data = responseData,
-                prevKey = if (currentPage == 1) null else -1,
-                nextKey = currentPage.plus(1)
-            )
-
+            return if (response.isSuccessful) {
+                val data = response.body()?.results ?: emptyList()
+                LoadResult.Page(
+                    data = data,
+                    prevKey = if (currentPage == 1) null else currentPage - 1,
+                    nextKey = currentPage.plus(1)
+                )
+            } else {
+                LoadResult.Error(HttpException(response))
+            }
         } catch (e: Exception) {
-          return  LoadResult.Error(e)
+            return LoadResult.Error(e)
         }
     }
 }

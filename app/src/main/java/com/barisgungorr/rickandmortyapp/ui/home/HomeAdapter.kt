@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -17,6 +19,7 @@ class HomeAdapter(
     private val onItemSelected:(CharacterItem) -> Unit
 )
     : PagingDataAdapter<CharacterItem, HomeViewHolder>(DIFF_CALLBACK){
+
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CharacterItem>() {
             override fun areItemsTheSame(oldItem: CharacterItem, newItem: CharacterItem): Boolean {
@@ -36,4 +39,7 @@ class HomeAdapter(
         val item = getItem(position) ?: return
         holder.bind(item, onItemSelected)
     }
+
+
 }
+

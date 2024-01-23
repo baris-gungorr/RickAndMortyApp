@@ -91,7 +91,7 @@ class FavoriteFragment : Fragment() {
 
     private fun initViews() = with(binding) {
 
-        ivHome.setOnClickListener {
+        ivGoToHome.setOnClickListener {
             findNavController().navigate(R.id.actionFavoriteToMainFragment)
         }
 

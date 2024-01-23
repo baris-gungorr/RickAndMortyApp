@@ -17,6 +17,7 @@ class CharacterRepository @Inject constructor(
     private val apiService: ApiService,
     private val favoriteDao: FavoriteDao
 ){
+
     suspend fun getCharacters(query: String): Response<ResponseApi> {
         val page: Int = try {
             query.toInt()
@@ -26,8 +27,12 @@ class CharacterRepository @Inject constructor(
         return apiService.getAllCharacter(page)
     }
 
-    suspend fun getCharactersByName(name: String): Response<ItemsInfo> = apiService.getCharactersByName(
-            CHARACTER +name)
+    //suspend fun getCharactersByName(name: String): Response<ItemsInfo> = apiService.getCharactersByName(
+      //      CHARACTER +name)
+
+    suspend fun getCharactersByName(query: String): Response<ResponseApi> {
+        return apiService.getCharactersByName(query)
+    }
 
     suspend fun getCharactersById(id: String): Response<CharacterItem> = apiService.getCharactersById(
             CHARACTER +id)
