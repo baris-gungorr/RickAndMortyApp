@@ -1,58 +1,49 @@
 package com.barisgungorr.rickandmortyapp.ui.home
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
-import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.room.util.query
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.FragmentHomeBinding
 import com.barisgungorr.rickandmortyapp.ui.bottomsheet.BottomSheetFragment
 
-import com.barisgungorr.rickandmortyapp.util.constanst.Constants
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
-   // private var notFound: Boolean = false
-    private var searchCharacter: Boolean = false
     private lateinit var drawerLayout: DrawerLayout
     private val bottomSheetFragment = BottomSheetFragment()
-
 
     private val adapter: HomeAdapter by lazy {
         HomeAdapter { character ->
@@ -70,14 +61,19 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        drawerLayout = binding.drawerLayout
+        setupUI()
+        if (homeViewModel.charactersResponse.value == null) {
+            loadData()
+        }
+        observeData()
+    }
 
+    private fun setupUI() {
+        drawerLayout = binding.drawerLayout
         val toolbar = binding.toolbar
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
-
         val navigationView = binding.navView
         navigationView.setNavigationItemSelectedListener(this)
-
         val toggle = ActionBarDrawerToggle(
             requireActivity(),
             drawerLayout,
@@ -86,17 +82,15 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.string.home_fragment_close_nav
         )
         toggle.syncState()
-        isLoading()
-        loadingData()
         initListComponents()
     }
 
-    private fun loadingData() {
+    private fun loadData() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 homeViewModel.listData.collectLatest { pagingData ->
                     adapter.submitData(pagingData)
-
+                    homeViewModel.isLoading.postValue(false)
                 }
             } catch (e: Exception) {
                 Log.e("Error", "Not Loading Data !")
@@ -105,8 +99,13 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
+    private fun observeData() {
+        observeCharacterSearchResults()
+        observeCharacterItemResponse()
+        observeLoadingState()
+    }
 
-    private fun isLoading() {
+    private fun observeLoadingState() {
         viewLifecycleOwner.lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest { loadStates ->
                 binding.pbCharacter.isVisible = loadStates.refresh is LoadState.Loading
@@ -116,41 +115,70 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     }
 
     private fun searchCharacters(query: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.loadCharacterByName(query)
         }
     }
 
     private fun initListComponents() {
-
-        binding.etSearch.addTextChangedListener {
-            searchCharacters(it.toString())
+        var searchJob: Job? = null
+        binding.etSearch.addTextChangedListener { editable ->
+            searchJob?.cancel()
+            searchJob = viewLifecycleOwner.lifecycleScope.launch {
+                val query = editable.toString().trim()
+                if (query.isNotEmpty()) {
+                    searchCharacters(query)
+                }
+            }
         }
-
         binding.rvCharacter.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCharacter.adapter = adapter
-
     }
 
+    private fun observeCharacterSearchResults() {
+        homeViewModel.charactersResponse.observe(viewLifecycleOwner) { response ->
+            if (response.isSuccessful) {
+                adapter.submitData(
+                    lifecycle,
+                    PagingData.from(response.body()?.results ?: emptyList())
+                )
+                homeViewModel.isLoading.postValue(false)
+            }
+        }
+    }
+
+    private fun observeCharacterItemResponse() {
+        homeViewModel.characterItemResponse.observe(viewLifecycleOwner) { response ->
+            if (!response.isSuccessful) {
+                binding.tvError.text = "An error occurred: ${response.errorBody()?.string()}"
+                binding.tvError.isVisible = true
+            } else {
+                binding.tvError.isVisible = false
+            }
+        }
+    }
 
     private fun onItemSelected(characterItem: CharacterItem) {
-    //    notFound = false
         findNavController().navigate(HomeFragmentDirections.actionHomeToDetailFragment(idCharacter = characterItem.id))
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_settings -> findNavController().navigate(R.id.actionHomeToSettings)
-            R.id.nav_about -> bottomSheetFragment.show(
-                parentFragmentManager,
-                bottomSheetFragment.tag
-            )
-
+            R.id.nav_settings -> navigateToSettings()
+            R.id.nav_about -> showAboutBottomSheet()
             R.id.nav_logout -> showLogoutDialog()
             R.id.nav_share -> shareApp()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun navigateToSettings() {
+        findNavController().navigate(R.id.actionHomeToSettings)
+    }
+
+    private fun showAboutBottomSheet() {
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private fun showLogoutDialog() {
@@ -173,4 +201,3 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         startActivity(Intent.createChooser(shareIntent, "Share with"))
     }
 }
-

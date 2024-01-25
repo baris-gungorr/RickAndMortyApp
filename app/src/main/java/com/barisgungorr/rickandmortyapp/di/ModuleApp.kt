@@ -1,6 +1,7 @@
 package com.barisgungorr.rickandmortyapp.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository
@@ -52,5 +53,14 @@ object ModuleApp {
     fun provideFavoriteDao(@ApplicationContext context: Context): FavoriteDao {
         val vt = Room.databaseBuilder(context, Database::class.java,"character.sqlite").createFromAsset("character.sqlite").build()
         return vt.getFavoritesDao()
+    }
+    @Module
+    @InstallIn(SingletonComponent::class)
+    object SharedPreferencesModule {
+
+        @Provides
+        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+            return context.getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+        }
     }
 }

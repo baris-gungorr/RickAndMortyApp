@@ -39,7 +39,5 @@ class HomeAdapter(
         val item = getItem(position) ?: return
         holder.bind(item, onItemSelected)
     }
-
-
 }
 

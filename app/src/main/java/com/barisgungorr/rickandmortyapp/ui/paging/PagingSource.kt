@@ -7,7 +7,8 @@ import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import retrofit2.HttpException
 
 class PagingSource(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val characterName: String
 ) : PagingSource<Int, CharacterItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterItem>): Int? {
@@ -17,7 +18,7 @@ class PagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterItem> {
         try {
             val currentPage = params.key ?: 1
-            val response = apiService.getAllCharacter(currentPage)
+            val response = apiService.getCharactersByName(characterName,currentPage)
             return if (response.isSuccessful) {
                 val data = response.body()?.results ?: emptyList()
                 LoadResult.Page(

@@ -2,17 +2,14 @@ package com.barisgungorr.rickandmortyapp.ui.detail
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -42,23 +39,25 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var characterItem: CharacterItem
     private lateinit var listEpisodes: Episodes
-    private lateinit var context: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        searchCharacters()
-        listEpisodes = Episodes()
         binding = FragmentDetailBinding.inflate(inflater, container, false)
-        context = inflater.context
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        searchCharacters()
         observe()
+    }
+
+    private fun searchCharacters() {
+        CoroutineScope(Dispatchers.IO).launch{
+            characterViewModel.loadCharacterItemById(args.idCharacter.toString())
+        }
     }
 
     private fun observe() {
@@ -66,39 +65,33 @@ class DetailFragment : Fragment() {
             findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
         }
 
-        characterViewModel.characterItemResponse.observe(viewLifecycleOwner, Observer { it ->
+        characterViewModel.characterItemResponse.observe(viewLifecycleOwner) { it ->
             it?.let {
                 characterItem = it.body()!!
                 searchEpisodes(characterItem)
                 initViews()
             }
-        })
+        }
 
-        episodesViewModel.episodesListResponse.observe(viewLifecycleOwner, Observer { it ->
+        episodesViewModel.episodesListResponse.observe(viewLifecycleOwner) { it ->
             it?.let {
                 listEpisodes.clear()
                 listEpisodes = it.body()!!
                 setRecyclerViewEpisodes()
             }
-        })
+        }
 
-        episodesViewModel.episodesResponse.observe(viewLifecycleOwner, Observer { it ->
+        episodesViewModel.episodesResponse.observe(viewLifecycleOwner) { it ->
             it?.let {
                 listEpisodes.clear()
                 listEpisodes.add(it.body()!!)
                 setRecyclerViewEpisodes()
             }
-        })
-    }
-
-    private fun searchCharacters() {
-        CoroutineScope(Dispatchers.IO).launch {
-            characterViewModel.loadCharacterItemById(args.idCharacter.toString())
         }
     }
 
     private fun searchEpisodes(characterItem: CharacterItem) {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope (Dispatchers.IO).launch{
             val episodes = Url.obtainNumFromURLs(characterItem.episode)
 
             if (episodes.contains(",")) {
@@ -146,9 +139,9 @@ class DetailFragment : Fragment() {
             tvDetailStatus.text = characterItem.status
 
             when (characterItem.status.lowercase()) {
-                "alive" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_alive)
-                "dead" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_dead)
-                "unknown" -> ivDetailAlive.background = ContextCompat.getDrawable(context, R.drawable.baseline_unknown)
+                "alive" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_alive)
+                "dead" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_dead)
+                "unknown" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_unknown)
             }
 
             tvDetailSpecies.text = characterItem.species
@@ -161,15 +154,13 @@ class DetailFragment : Fragment() {
         }
     }
 
-
-
     private fun setRecyclerViewEpisodes() = with(binding) {
         adapter = EpisodeAdapter()
         rvEpisodes.layoutManager = LinearLayoutManager(activity)
         rvEpisodes.adapter = adapter
         adapter.submitList(listEpisodes)
 
-        binding.btnFavEmpty.setOnClickListener() {
+        binding.btnFavEmpty.setOnClickListener {
             binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
 
             viewModel.save(
@@ -188,4 +179,3 @@ class DetailFragment : Fragment() {
         }
     }
 }
-

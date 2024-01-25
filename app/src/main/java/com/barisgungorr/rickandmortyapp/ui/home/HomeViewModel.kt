@@ -8,35 +8,38 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
-import com.barisgungorr.rickandmortyapp.data.dto.ItemsInfo
 import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
 import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByIdUseCase
-import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByNameUseCase
 import com.barisgungorr.rickandmortyapp.ui.paging.PagingSource
+import com.barisgungorr.rickandmortyapp.util.resource.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCharacterByNameUseCase: GetCharacterByNameUseCase,
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
     private val apiService: ApiService
 ): ViewModel(){
 
     val charactersResponse = MutableLiveData<Response<ResponseApi>>()
-    private val characterListItemResponse = MutableLiveData<Response<ItemsInfo>>()
     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
     val isLoading = MutableLiveData<Boolean>()
-    val searchResults = MutableLiveData<PagingData<ItemsInfo>>()
-    var searchQuery = MutableLiveData<String>()
 
-    var listData = Pager(PagingConfig(pageSize = 20)) {
-        PagingSource(apiService)
+    var listData: Flow<PagingData<CharacterItem>> = Pager(PagingConfig(pageSize = 20)) {
+        PagingSource(apiService,"")
     }.flow
+
+    private fun filterCharacters(characters: List<CharacterItem>, searchQuery: String): List<CharacterItem> {
+        return characters.filter {
+            it.name.contains(searchQuery, ignoreCase = true)
+        }
+    }
 
     fun loadList() {
         viewModelScope.launch {
@@ -52,14 +55,31 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    fun loadCharacterByName(characterName: String){
+    fun loadCharacterByName(characterName: String) {
         viewModelScope.launch {
             isLoading.value = true
-            listData = Pager(PagingConfig(pageSize = 20)) {
-                PagingSource(apiService)
-            }.flow
-            isLoading.value = false
+
+            try {
+                val response = apiService.getCharactersByName(characterName,1)
+                charactersResponse.postValue(response)
+
+                if (response.isSuccessful) {
+                    val filteredCharacters = filterCharacters(response.body()?.results ?: emptyList(), characterName)
+                    listData = Pager(PagingConfig(pageSize = 20)) {
+                        PagingSource(apiService, characterName)
+                    }.flow
+                    charactersResponse.postValue(Response.success(ResponseApi(results = filteredCharacters)))
+                } else {
+                    val errorBody = response.errorBody()
+                    if (errorBody != null) {
+                        characterItemResponse.postValue(Response.error(response.code(), errorBody))
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error loading character: ${e.message}")
+            } finally {
+                isLoading.value = false
+            }
         }
     }
 

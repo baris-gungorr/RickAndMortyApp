@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> binding.bottomNav.isVisible = true
-              //  R.id.favoriteFragment -> binding.bottomNav.isVisible = true
+                R.id.favoriteFragment -> binding.bottomNav.isVisible = true
                 R.id.favoriteFragment,
                 R.id.splashFragment,
                 R.id.detailFragment,

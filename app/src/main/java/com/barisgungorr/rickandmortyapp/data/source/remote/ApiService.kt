@@ -15,17 +15,17 @@ interface ApiService {
 
     @GET(Constants.CHAR_POINT)
     suspend fun getAllCharacter(
-        @Query("page") page: Int
+        @Query("page") page: Int,
     ): Response<ResponseApi>
 
     @GET
     suspend fun getCharactersById(@Url url:String): Response<CharacterItem>
 
-   // @GET
-   // suspend fun getCharactersByName(query:String): Response<ResponseApi>
+
    @GET(Constants.CHAR_POINT)
    suspend fun getCharactersByName(
-       @Query("name") name: String
+       @Query("name") name: String,
+         @Query("page") page: Int,
    ): Response<ResponseApi>
 
 

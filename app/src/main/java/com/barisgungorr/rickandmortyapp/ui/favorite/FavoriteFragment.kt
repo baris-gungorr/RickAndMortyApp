@@ -78,11 +78,11 @@ class FavoriteFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.favorite_page_title)
         builder.setMessage(getString(R.string.favorite_page_delete_tv, favorite.characterName))
-        builder.setPositiveButton(R.string.favorite_page_yes_tv) { dialog, which ->
+        builder.setPositiveButton(R.string.favorite_page_yes_tv) { dialog, _ ->
             viewModel.deleteFavorite(characterId = favorite.characterId)
             dialog.dismiss()
         }
-        builder.setNegativeButton("NO") { dialog, which ->
+        builder.setNegativeButton("NO") { dialog, _ ->
             dialog.dismiss()
         }
         builder.show()
@@ -92,7 +92,7 @@ class FavoriteFragment : Fragment() {
     private fun initViews() = with(binding) {
 
         ivGoToHome.setOnClickListener {
-            findNavController().navigate(R.id.actionFavoriteToMainFragment)
+            findNavController().navigateUp()
         }
 
         etSearch.addTextChangedListener {

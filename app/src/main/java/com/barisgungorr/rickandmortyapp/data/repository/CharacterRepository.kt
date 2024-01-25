@@ -27,11 +27,8 @@ class CharacterRepository @Inject constructor(
         return apiService.getAllCharacter(page)
     }
 
-    //suspend fun getCharactersByName(name: String): Response<ItemsInfo> = apiService.getCharactersByName(
-      //      CHARACTER +name)
-
     suspend fun getCharactersByName(query: String): Response<ResponseApi> {
-        return apiService.getCharactersByName(query)
+        return apiService.getCharactersByName(query,1)
     }
 
     suspend fun getCharactersById(id: String): Response<CharacterItem> = apiService.getCharactersById(

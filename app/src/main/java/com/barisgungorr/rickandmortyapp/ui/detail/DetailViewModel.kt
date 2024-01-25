@@ -17,6 +17,7 @@ class DetailViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 
 ): ViewModel() {
+
     val startAnimation = MutableLiveData<Unit>()
     val stopAnimation = MutableLiveData<Unit>()
     fun save(

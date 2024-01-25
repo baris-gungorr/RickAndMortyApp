@@ -30,7 +30,7 @@
             android:id="@+id/action_homeFragment_to_splashFragment"
             app:destination="@id/splashFragment"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true" />
+            />
         <action
             android:id="@+id/actionHomeToSettings"
             app:destination="@id/settingsFragment" />
@@ -64,7 +64,11 @@
             app:argType="com.barisgungorr.rickandmortyapp.data.entity.Favorite" />
         <action
             android:id="@+id/actionFavoriteToMainFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+
+            />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
