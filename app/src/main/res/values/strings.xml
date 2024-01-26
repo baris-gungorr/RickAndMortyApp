@@ -72,6 +72,10 @@
     //Media Fragment
     <string name="media_page_title">Media</string>
 
+    //Popup Menu
+    <string name="popup_menu_english">English</string>
+    <string name="popup_menu_turkish">Turkish</string>
+
 
 
 

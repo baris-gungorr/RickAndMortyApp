@@ -14,12 +14,30 @@ import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.databinding.FragmentSettingsBinding
 import com.barisgungorr.rickandmortyapp.ui.activity.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setLanguage(viewModel.getLanguage())
+    }
+
+    private fun setLanguage(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val config = resources.configuration
+        config.setLocale(locale)
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,27 +80,32 @@ class SettingsFragment : Fragment() {
         binding.btnLanguage.setOnClickListener {
             val popup = PopupMenu(requireContext(), it)
             popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
-            popup.menu.findItem(R.id.action_turkish).isChecked = language == "en"
-            popup.menu.findItem(R.id.action_english).isChecked = language == "tr"
+
+            val prefLanguage = viewModel.getLanguage()
+            popup.menu.findItem(R.id.action_turkish).isChecked = prefLanguage == "en"
+            popup.menu.findItem(R.id.action_english).isChecked = prefLanguage == "tr"
             popup.show()
 
             popup.setOnMenuItemClickListener { item ->
-                when(item.itemId) {
+                when (item.itemId) {
                     R.id.action_turkish -> {
                         viewModel.setLanguage("tr")
                         restartActivity()
                         true
                     }
+
                     R.id.action_english -> {
                         viewModel.setLanguage("en")
                         restartActivity()
                         true
                     }
+
                     else -> false
                 }
             }
         }
     }
+
     private fun restartActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

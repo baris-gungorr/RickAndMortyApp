@@ -2,20 +2,16 @@ package com.barisgungorr.rickandmortyapp.ui.media
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.barisgungorr.rickandmortyapp.R
-import com.barisgungorr.rickandmortyapp.databinding.FragmentDetailBinding
 import com.barisgungorr.rickandmortyapp.databinding.FragmentMediaBinding
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.source.dash.DashMediaSource
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import java.net.URL
 
 
 class MediaFragment : Fragment() {
@@ -29,11 +25,14 @@ class MediaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-
         binding = FragmentMediaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         preparePlayer()
         goToHomeFragment()
-        return binding.root
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun preparePlayer() {

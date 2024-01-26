@@ -12,11 +12,9 @@ import com.barisgungorr.rickandmortyapp.data.dto.ResponseApi
 import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.domain.usecase.characters.GetCharacterByIdUseCase
 import com.barisgungorr.rickandmortyapp.ui.paging.PagingSource
-import com.barisgungorr.rickandmortyapp.util.resource.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -88,6 +86,7 @@ class HomeViewModel @Inject constructor(
             isLoading.value = true
             val character = getCharacterByIdUseCase(characterId)
             character?.let {
+                Log.d("HomeViewModel", "Loaded character: $it")
                 characterItemResponse.postValue(character)
                 isLoading.value = false
             }

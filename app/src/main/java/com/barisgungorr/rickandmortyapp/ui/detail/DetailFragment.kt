@@ -2,8 +2,9 @@ package com.barisgungorr.rickandmortyapp.ui.detail
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -39,23 +40,31 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var characterItem: CharacterItem
     private lateinit var listEpisodes: Episodes
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = Runnable {
+        findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
+
+        listEpisodes = Episodes()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         searchCharacters()
+        handler.postDelayed(runnable, 50000)
         observe()
     }
 
     private fun searchCharacters() {
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             characterViewModel.loadCharacterItemById(args.idCharacter.toString())
         }
     }
@@ -65,11 +74,21 @@ class DetailFragment : Fragment() {
             findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
         }
 
-        characterViewModel.characterItemResponse.observe(viewLifecycleOwner) { it ->
-            it?.let {
-                characterItem = it.body()!!
-                searchEpisodes(characterItem)
-                initViews()
+
+
+    characterViewModel.characterItemResponse.observe(viewLifecycleOwner) {
+            it?.body()?.let { body ->
+                characterItem = body
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.Main) {
+                        searchEpisodes(characterItem)
+                        initViews()
+                        binding.progressBar.visibility = View.GONE
+                        handler.removeCallbacks(runnable)
+                    }
+                }
+            } ?: run {
+                binding.progressBar.visibility = View.VISIBLE
             }
         }
 
@@ -91,16 +110,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun searchEpisodes(characterItem: CharacterItem) {
-        CoroutineScope (Dispatchers.IO).launch{
-            val episodes = Url.obtainNumFromURLs(characterItem.episode)
+        val episodes = Url.obtainNumFromURLs(characterItem.episode)
 
-            if (episodes.contains(",")) {
-                episodesViewModel.onCreateListEpisodes(episodes)
-            } else {
-                episodesViewModel.onCreateEpisode(episodes)
-            }
+        if (episodes.contains(",")) {
+            episodesViewModel.onCreateListEpisodes(episodes)
+        } else {
+            episodesViewModel.onCreateEpisode(episodes)
         }
     }
+
 
     private fun initViews() {
         binding.apply {
@@ -115,17 +133,17 @@ class DetailFragment : Fragment() {
                 repeatCount = ValueAnimator.INFINITE
             }
 
-            viewModel.startAnimation.observe(viewLifecycleOwner, Observer {
+            viewModel.startAnimation.observe(viewLifecycleOwner) {
                 scaleXAnimation.start()
                 scaleYAnimation.start()
-            })
+            }
 
-            viewModel.stopAnimation.observe(viewLifecycleOwner, Observer {
+            viewModel.stopAnimation.observe(viewLifecycleOwner) {
                 scaleXAnimation.cancel()
                 scaleYAnimation.cancel()
                 ivDetailCharacter.scaleX = 1f
                 ivDetailCharacter.scaleY = 1f
-            })
+            }
 
             ivDetailCharacter.setOnClickListener {
                 viewModel.startAnimation()
