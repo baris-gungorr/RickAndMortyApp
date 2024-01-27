@@ -10,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,31 +42,31 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var characterItem: CharacterItem
     private lateinit var listEpisodes: Episodes
-    private val handler = Handler(Looper.getMainLooper())
-    private val runnable = Runnable {
-        findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
-
         listEpisodes = Episodes()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchCharacters()
-        handler.postDelayed(runnable, 50000)
+
+        init()
+    }
+
+    private fun init() {
         observe()
+        searchCharacters()
     }
 
     private fun searchCharacters() {
-        CoroutineScope(Dispatchers.IO).launch {
+
+       lifecycleScope.launch {
             characterViewModel.loadCharacterItemById(args.idCharacter.toString())
         }
     }
@@ -74,32 +76,38 @@ class DetailFragment : Fragment() {
             findNavController().navigate(DetailFragmentDirections.actionDetailToHomeFragment())
         }
 
+        observeCharacterResponse()
+        observeEpisodesListResponse()
+        observeEpisodesResponse()
+    }
 
-
-    characterViewModel.characterItemResponse.observe(viewLifecycleOwner) {
+    private fun observeCharacterResponse() {
+        characterViewModel.characterItemResponse.observe(viewLifecycleOwner) {
             it?.body()?.let { body ->
                 characterItem = body
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Dispatchers.Main) {
+
+                lifecycleScope.launch {
                         searchEpisodes(characterItem)
                         initViews()
-                        binding.progressBar.visibility = View.GONE
-                        handler.removeCallbacks(runnable)
-                    }
+                        binding.progressBar.isVisible = false
+
                 }
             } ?: run {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBar.isVisible = true
             }
         }
+    }
 
+    private fun observeEpisodesListResponse() {
         episodesViewModel.episodesListResponse.observe(viewLifecycleOwner) { it ->
             it?.let {
-                listEpisodes.clear()
                 listEpisodes = it.body()!!
                 setRecyclerViewEpisodes()
             }
         }
+    }
 
+    private fun observeEpisodesResponse() {
         episodesViewModel.episodesResponse.observe(viewLifecycleOwner) { it ->
             it?.let {
                 listEpisodes.clear()
@@ -120,11 +128,8 @@ class DetailFragment : Fragment() {
     }
 
 
-    private fun initViews() {
-        binding.apply {
-            Glide.with(ivDetailCharacter.context)
-                .load(characterItem.image)
-                .into(ivDetailCharacter)
+    private fun initViews()  = with(binding){
+        characterItem.bindToUI()
 
             val scaleXAnimation = ObjectAnimator.ofFloat(ivDetailCharacter, "scaleX", 1.5f)
             val scaleYAnimation = ObjectAnimator.ofFloat(ivDetailCharacter, "scaleY", 1.5f).apply {
@@ -153,24 +158,29 @@ class DetailFragment : Fragment() {
                 viewModel.stopAnimation()
             }
 
-            tvDetailName.text = characterItem.name
-            tvDetailStatus.text = characterItem.status
-
-            when (characterItem.status.lowercase()) {
-                "alive" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_alive)
-                "dead" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_dead)
-                "unknown" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_unknown)
-            }
-
-            tvDetailSpecies.text = characterItem.species
-            tvDetailLocation.text = characterItem.location.name
-            tvDetailGender.text = characterItem.gender
-
             btnMedia.setOnClickListener {
                 findNavController().navigate(R.id.actionDetailsToMedia)
             }
         }
-    }
+        private fun CharacterItem.bindToUI() {
+            binding.apply {
+                Glide.with(ivDetailCharacter.context)
+                    .load(image)
+                    .into(ivDetailCharacter)
+
+                tvDetailName.text = name
+                tvDetailStatus.text = status
+                tvDetailSpecies.text = species
+                tvDetailLocation.text = location.name
+                tvDetailGender.text = gender
+
+                when (status.lowercase()) {
+                    "alive" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_alive)
+                    "dead" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_dead)
+                    "unknown" -> ivDetailAlive.background = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_unknown)
+                }
+            }
+        }
 
     private fun setRecyclerViewEpisodes() = with(binding) {
         adapter = EpisodeAdapter()
@@ -180,16 +190,7 @@ class DetailFragment : Fragment() {
 
         binding.btnFavEmpty.setOnClickListener {
             binding.btnFavEmpty.setImageResource(R.drawable.baseline_favorite_24)
-
-            viewModel.save(
-                characterItem.id,
-                characterItem.name,
-                characterItem.status,
-                characterItem.species,
-                characterItem.gender,
-                characterItem.location.name,
-                characterItem.image
-            )
+            viewModel.save(characterItem)
         }
 
         ivGoHome.setOnClickListener {

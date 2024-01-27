@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RickAndMortyApp</string>
+    <string name="app_name">RickAndMorty</string>
 
     //Onboarding
     <string name="onboarding_fragment_title">Göze basın ve ne olduğunu görün</string>
@@ -11,6 +11,7 @@
     <string name="home_fragment_close_nav">Close Navigation Drawer</string>
     <string name="home_fragment_error_tv">Hata lütfen internet bağlantını kontrol et</string>
     <string name="home_fragment_not_found">Bulunamadı</string>
+    <string name="error_occurred">Hata oluştu: %1$s</string>
 
     //Detail
     <string name="detail_fragment_episodes_tv">Bölümler</string>
@@ -67,8 +68,8 @@
     <string name="nav_drawer_logout">Çıkış yap</string>
 
     //Bottom Menu
-    <string name="nav_menu_home">Home</string>
-    <string name="nav_menu_favorite">Favorite</string>
+    <string name="nav_menu_home">Anasayfa</string>
+    <string name="nav_menu_favorite">Favoriler</string>
 
     //Media Fragment
     <string name="media_page_title">Medya</string>

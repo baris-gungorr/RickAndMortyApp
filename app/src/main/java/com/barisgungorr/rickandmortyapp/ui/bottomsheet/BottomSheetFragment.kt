@@ -3,14 +3,11 @@ package com.barisgungorr.rickandmortyapp.ui.bottomsheet
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
-import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.databinding.FragmentBottomSheetBinding
-import com.barisgungorr.rickandmortyapp.util.constanst.Constants.WEBSITE_URL
+import com.barisgungorr.rickandmortyapp.util.constants.Constants.WEBSITE_URL
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomSheetFragment : BottomSheetDialogFragment() {

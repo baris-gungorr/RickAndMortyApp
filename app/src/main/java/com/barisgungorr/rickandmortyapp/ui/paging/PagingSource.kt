@@ -12,13 +12,13 @@ class PagingSource(
 ) : PagingSource<Int, CharacterItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterItem>): Int? {
-        return state.anchorPosition
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterItem> {
         try {
             val currentPage = params.key ?: 1
-            val response = apiService.getCharactersByName(characterName,currentPage)
+            val response = apiService.getCharactersByName(characterName, currentPage)
             return if (response.isSuccessful) {
                 val data = response.body()?.results ?: emptyList()
                 LoadResult.Page(
@@ -34,3 +34,4 @@ class PagingSource(
         }
     }
 }
+

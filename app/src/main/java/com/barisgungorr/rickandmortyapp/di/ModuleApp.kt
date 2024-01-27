@@ -7,7 +7,7 @@ import com.barisgungorr.rickandmortyapp.data.source.remote.ApiService
 import com.barisgungorr.rickandmortyapp.data.repository.CharacterRepository
 import com.barisgungorr.rickandmortyapp.data.source.locale.Database
 import com.barisgungorr.rickandmortyapp.data.source.locale.FavoriteDao
-import com.barisgungorr.rickandmortyapp.util.constanst.Constants
+import com.barisgungorr.rickandmortyapp.util.constants.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

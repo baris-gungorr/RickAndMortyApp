@@ -28,10 +28,13 @@ class HomeViewModel @Inject constructor(
     val charactersResponse = MutableLiveData<Response<ResponseApi>>()
     val characterItemResponse = MutableLiveData<Response<CharacterItem>>()
     val isLoading = MutableLiveData<Boolean>()
+    private val characterCache = mutableMapOf<String, CharacterItem>()
 
-    var listData: Flow<PagingData<CharacterItem>> = Pager(PagingConfig(pageSize = 20)) {
+
+    var listData: Flow<PagingData<CharacterItem>> = Pager(PagingConfig(pageSize = 1)) {
         PagingSource(apiService,"")
     }.flow
+
 
     private fun filterCharacters(characters: List<CharacterItem>, searchQuery: String): List<CharacterItem> {
         return characters.filter {
@@ -67,6 +70,8 @@ class HomeViewModel @Inject constructor(
                         PagingSource(apiService, characterName)
                     }.flow
                     charactersResponse.postValue(Response.success(ResponseApi(results = filteredCharacters)))
+
+                    characterCache[filteredCharacters.first().id.toString()] = filteredCharacters.first()
                 } else {
                     val errorBody = response.errorBody()
                     if (errorBody != null) {
@@ -84,12 +89,14 @@ class HomeViewModel @Inject constructor(
     fun loadCharacterItemById(characterId: String){
         viewModelScope.launch {
             isLoading.value = true
-            val character = getCharacterByIdUseCase(characterId)
+            val character = getCharacterFromCacheOrApi(characterId)
             character?.let {
-                Log.d("HomeViewModel", "Loaded character: $it")
-                characterItemResponse.postValue(character)
-                isLoading.value = false
+                characterItemResponse.postValue(Response.success(it))
             }
+            isLoading.value = false
         }
+    }
+    private suspend fun getCharacterFromCacheOrApi(characterId: String): CharacterItem? {
+        return characterCache[characterId] ?: getCharacterByIdUseCase(characterId).body()
     }
 }

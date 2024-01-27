@@ -2,6 +2,7 @@ package com.barisgungorr.rickandmortyapp.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -23,6 +24,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.barisgungorr.rickandmortyapp.R
 import com.barisgungorr.rickandmortyapp.data.dto.CharacterItem
 import com.barisgungorr.rickandmortyapp.databinding.FragmentHomeBinding
@@ -41,13 +43,15 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var drawerLayout: DrawerLayout
     private val bottomSheetFragment = BottomSheetFragment()
-    private var searchJob: Job? = null
+
+
 
     private val adapter: HomeAdapter by lazy {
         HomeAdapter { character ->
             onItemSelected(character)
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +92,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             try {
                 homeViewModel.listData.collectLatest { pagingData ->
                     adapter.submitData(pagingData)
+
+
                     homeViewModel.isLoading.postValue(false)
                 }
             } catch (e: Exception) {
@@ -111,7 +117,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
-
     private fun searchCharacters(query: String) {
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.loadCharacterByName(query)
@@ -120,16 +125,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     private fun initListComponents() {
         binding.etSearch.addTextChangedListener { editable ->
-            searchJob?.cancel()
-            searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                delay(100)
-                editable?.let {
-                    if (editable.toString().isNotEmpty()) {
                         searchCharacters(editable.toString())
                     }
-                }
-            }
-        }
+
         binding.rvCharacter.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.rvCharacter.adapter = adapter
     }
@@ -149,7 +147,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private fun observeCharacterItemResponse() {
         homeViewModel.characterItemResponse.observe(viewLifecycleOwner) { response ->
             if (!response.isSuccessful) {
-                binding.tvError.text = "An error occurred: ${response.errorBody()?.string()}"
+                val errorDetail = response.errorBody()?.string()
+                binding.tvError.text = getString(R.string.error_occurred, errorDetail)
                 binding.tvError.isVisible = true
             } else {
                 binding.tvError.isVisible = false
@@ -158,8 +157,13 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     }
 
     private fun onItemSelected(characterItem: CharacterItem) {
-        setFragmentResult("characterId", bundleOf("id" to characterItem.id))
-        findNavController().navigate(HomeFragmentDirections.actionHomeToDetailFragment(characterItem.id))
+        homeViewModel.loadCharacterItemById(characterItem.id.toString())
+        navigateToCharacterDetail(characterItem.id)
+    }
+
+    private fun navigateToCharacterDetail(characterId: Int) {
+        val action = HomeFragmentDirections.actionHomeToDetailFragment(characterId)
+        findNavController().navigate(action)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
