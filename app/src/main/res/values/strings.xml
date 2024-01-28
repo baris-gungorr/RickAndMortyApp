@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RickAndMorty</string>
+    <string name="app_name">Rick and Morty</string>
     //Onboarding
     <string name="onboarding_fragment_title">Press The eye and see what happens</string>
 

@@ -45,7 +45,6 @@ class HomeViewModel @Inject constructor(
     fun loadList() {
         viewModelScope.launch {
             isLoading.value = true
-
             try {
                 val response = apiService.getAllCharacter(1)
                 charactersResponse.postValue(response)
@@ -56,6 +55,7 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
     fun loadCharacterByName(characterName: String) {
         viewModelScope.launch {
             isLoading.value = true

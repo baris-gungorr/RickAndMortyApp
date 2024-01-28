@@ -37,8 +37,6 @@ class SettingsFragment : Fragment() {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -99,7 +97,6 @@ class SettingsFragment : Fragment() {
                         restartActivity()
                         true
                     }
-
                     else -> false
                 }
             }

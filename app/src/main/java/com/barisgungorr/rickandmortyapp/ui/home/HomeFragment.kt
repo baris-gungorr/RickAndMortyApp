@@ -45,13 +45,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private val bottomSheetFragment = BottomSheetFragment()
 
 
-
     private val adapter: HomeAdapter by lazy {
         HomeAdapter { character ->
             onItemSelected(character)
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,7 +90,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             try {
                 homeViewModel.listData.collectLatest { pagingData ->
                     adapter.submitData(pagingData)
-
 
                     homeViewModel.isLoading.postValue(false)
                 }
@@ -155,7 +152,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
-
     private fun onItemSelected(characterItem: CharacterItem) {
         homeViewModel.loadCharacterItemById(characterItem.id.toString())
         navigateToCharacterDetail(characterItem.id)
@@ -189,7 +185,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         AlertDialog.Builder(requireContext()).apply {
             setMessage("Are you sure you want to exit?")
             setTitle("Rick and Morty")
-            setIcon(R.drawable.baseline_info_24)
+            setIcon(R.drawable.icons8_rick_sanchez)
             setPositiveButton("Yes") { _, _ ->
                 requireActivity().finish()
             }
