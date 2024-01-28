@@ -126,7 +126,22 @@ plugins {
     id("kotlin-parcelize")
 }
 
+
 ```
+
+```groovy
+
+👇 API
+
+- https://rickandmortyapi.com/
+```
+
+
+
+
+
+
+
 
 
 
