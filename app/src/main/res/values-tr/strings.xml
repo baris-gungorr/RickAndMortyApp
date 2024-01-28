@@ -27,7 +27,7 @@
     <string name="favorite_page_remove_tv">Sil?</string>
     <string name="favorite_page_yes_tv">Evet</string>
     <string name="favorite_page_add_favorite">Favoriye eklendi</string>
-    <string name="favorite_page_delete_tv"> %s  Bu ürünü favorilerden silmek istediğinize emin misiniz ?</string>
+    <string name="favorite_page_delete_tv"> %s  Bu karakteri favorilerden silmek istediğinize emin misiniz ?</string>
     <string name="favorite_page_no_character"> Favorilerde karakter yok </string>
 
     //Bottom Sheet

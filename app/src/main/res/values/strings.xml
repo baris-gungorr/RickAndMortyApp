@@ -25,7 +25,7 @@
     <string name="favorite_page_remove_tv">Delete?</string>
     <string name="favorite_page_yes_tv">YES</string>
     <string name="favorite_page_add_favorite">Add Favorite</string>
-    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the product ?</string>
+    <string name="favorite_page_delete_tv"> %s  Are you sure you want to delete the character ?</string>
     <string name="favorite_page_no_character"> No characters in favourites </string>
 
     //Bottom Sheet
